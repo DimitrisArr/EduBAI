@@ -42,6 +42,7 @@ class StatusSocket {
                 ws: ws
             });
 
+            
             playersStatus.setStatus(ws.protocol, statuses.ONLINE);
 
             /*****************/

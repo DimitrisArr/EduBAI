@@ -4,6 +4,7 @@
 var WebSocket = require('ws');
 var config = require('../config/config');
 
+var playerStatus = require('../playerStatus/playerStatus');
 /******************************************************************/
 
 class PosServer {
@@ -24,12 +25,17 @@ class PosServer {
 
             /*****************/
 
-            this.connections.push({
-                player: ws.protocol,
-                ws: ws,
-                //TODO: Find out how to get this data
-                opponent: undefined
+            playerStatus.getOpponent(ws.protocol).then((opp) => {
+                this.connections.push({
+                    player: ws.protocol,
+                    ws: ws,
+                    //TODO: Find out how to get this data
+                    opponent: opp
+                });
+            }).catch((err) => {
+                ws.close(1, `can't find registered opponent`);
             });
+
 
             /*****************/
 

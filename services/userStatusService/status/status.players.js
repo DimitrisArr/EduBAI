@@ -27,7 +27,6 @@ userService.getUsers().then((us) => {
 /******************************************************************/
 
 module.exports.setStatus = async (username, status) => {
-
     try {
         var users = await userService.getUsers();
 
@@ -41,6 +40,7 @@ module.exports.setStatus = async (username, status) => {
         logger.log(`cant load users from user service`);
     }
 
+    console.log("players: ", players, " | ", username);
     var player = players.find(p => p.username == username);
 
     if (player) {
@@ -54,9 +54,9 @@ module.exports.setStatus = async (username, status) => {
 
 
 
-
+    console.log(players,"asdas");
     //broadcast status ?!? (all players or only the one changed)
-    statusSocket.broadcastUsers(users.filter(u => u.status != statuses.OFFLINE));
+    statusSocket.broadcastUsers(players.filter(u => u.status && u.status != statuses.OFFLINE));
 }
 
 /******************************************************************/

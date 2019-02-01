@@ -7,7 +7,7 @@ var invitationSystem = require('./invitations');
 
 module.exports.getOnlineUsers = (req, res) => {
 
-    var onlineUsers = players.getPlayers.filter(p => p.status != statuses.OFFLINE);
+    var onlineUsers = players.getPlayers.filter(p => p.status && p.status != statuses.OFFLINE);
     res.send(JSON.stringify(onlineUsers));
 
 };
@@ -16,7 +16,7 @@ module.exports.getOnlineUsers = (req, res) => {
 
 module.exports.getOpponent = (req, res) => {
 
-    var username = req.body.username;
+    var username = req.query.username;
 
     if (!username) {
         res.status(400).send('parameter username is missing');
