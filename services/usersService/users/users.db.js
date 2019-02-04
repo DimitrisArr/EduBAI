@@ -79,7 +79,8 @@ class UsersDB {
 
         var user = await this.User.findOne({ username: username });
 
-        return user.username == username && user.password == password;
+
+        return user && user.username == username && user.password == password;
 
     }
 
