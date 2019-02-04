@@ -117,3 +117,35 @@ module.exports.deleteTactic = async (req, res) => {
 }
 
 /******************************************************************/
+
+module.exports.getTacticData = async (req, res) => {
+    var username = req.query.username;
+    var tactic = req.query.tactic;
+    var type = req.query.type;
+
+    if (!username || !tactic || !type) {
+        res.status(400).send('parameter(s) missing');
+        return;
+    }
+
+    var tactics = await tacticsDb.getTactics(username);
+
+    var tactic = tactics.find(t => t.type == type && t.name == tactic);
+
+    if (!tactic) {
+        res.status(404).send('tactic not found');
+        return;
+    }
+
+    try {
+        var data = tacticStorage.getTactic(path);
+    } catch (e) {
+        res.status(500).send('cant open tactic file');
+        return;
+    }
+
+    res.send('data');
+
+}
+
+/******************************************************************/

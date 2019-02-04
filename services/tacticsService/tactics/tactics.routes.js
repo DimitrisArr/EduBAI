@@ -17,6 +17,7 @@ module.exports.setRoutes = (app) => {
     app.post('/deleteTactic', controller.deleteTactic);
 
     app.get('/getTactics', controller.getTactics);
+    app.get('/getTacticData', controller.getTacticData);
 
 }
 

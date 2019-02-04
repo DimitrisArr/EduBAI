@@ -2,6 +2,7 @@ var config = require('../config/config');
 var logger = require('../logger/logger');
 var fs = require('fs');
 
+/******************************************************************/
 
 module.exports.saveTactic = (name, type, username, data) => {
 
@@ -17,6 +18,8 @@ module.exports.saveTactic = (name, type, username, data) => {
 
 }
 
+/******************************************************************/
+
 module.exports.deleteTactic = (name, type, username) => {
 
     var path = type == 'attack' ? config.attackTacticsPath : config.defenciveTacticsPath;
@@ -29,3 +32,11 @@ module.exports.deleteTactic = (name, type, username) => {
     }
 
 }
+
+/******************************************************************/
+
+module.exports.getTactic = (path) => {
+    return fs.readFileSync(path, { encoding: "utf8" });
+};
+
+/******************************************************************/
