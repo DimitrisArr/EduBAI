@@ -2,18 +2,16 @@
 var tacticsDb = require('./tactics.db');
 var tacticStorage = require('./tactics.store');
 var logger = require('../logger/logger');
-const multer = require('multer');
+
 
 /******************************************************************/
 
-// SET STORAGE
-var storage = multer.memoryStorage();
-var upload = multer({ storage: storage });
+
 
 module.exports.newDefenciveTactic = async (req, res) => {
     var name = req.body.name;
     var username = req.body.username;
-    var data = req.body.data;
+    var data = req.file;
 
     if (!name || !username || !data) {
         res.status(400).send('parameter(s) missing');
@@ -23,14 +21,14 @@ module.exports.newDefenciveTactic = async (req, res) => {
     var type = 'defence';
 
 
-    var path = tacticStorage.saveTactic(name, type, username, data);
+    var path = tacticStorage.saveTactic(name, type, username, data.buffer);
 
     if (!path) {
         res.status(500).send('error while saving tactic');
         return;
     }
 
-    var ok = tacticsDb.addTactic(username, { name: name, path: path, type: type });
+    var ok = tacticsDb.addTactic(username, name, path, type);
 
     if (!ok) {
         res.status(500).send('error while saving tactic');
@@ -46,7 +44,7 @@ module.exports.newDefenciveTactic = async (req, res) => {
 module.exports.newAttackTactic = async (req, res) => {
     var name = req.body.name;
     var username = req.body.username;
-    var data = req.body.data;
+    var data = req.file;
 
     if (!name || !username || !data) {
         res.status(400).send('parameter(s) missing');
@@ -56,14 +54,14 @@ module.exports.newAttackTactic = async (req, res) => {
     var type = 'attack';
 
 
-    var path = tacticStorage.saveTactic(name, type, username, data);
+    var path = tacticStorage.saveTactic(name, type, username, data.buffer);
 
     if (!path) {
         res.status(500).send('error while saving tactic');
         return;
     }
 
-    var ok = tacticsDb.addTactic(username, { name: name, path: path, type: type });
+    var ok = tacticsDb.addTactic(username, name, path, type);
 
     if (!ok) {
         res.status(500).send('error while saving tactic');

@@ -1,16 +1,11 @@
 
 /******************************************************************/
 
-module.exports.User = {
+module.exports.Tactics = {
     username: String,
-    tactics: [
-        {
-            name: String,
-            path: String,
-            type: String,
-            description: String
-        }
-    ]
+    name: String,
+    path: String,
+    type: String
 };
 
 /******************************************************************/

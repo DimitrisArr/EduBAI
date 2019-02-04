@@ -15,17 +15,15 @@ class UserTacticsDB {
 
         mongoose.connect(config.mongoDBHost, { useNewUrlParser: true });
 
-        this.User = mongoose.model('User', model.User);
+        this.Tactics = mongoose.model('Tactics', model.Tactics);
 
     }
 
     /***********************************/
 
     async isInDB(username) {
-
-        var user = await this.User.findOne({ username: username });
-        return !!user;
-
+        var tactic = await this.Tactics.findOne({ username: username });
+        return !!tactic;
     }
 
     /***********************************/
@@ -33,33 +31,25 @@ class UserTacticsDB {
     /**
      * 
      * @param {string} username
-     * @param {object} tactic
-     * @param {string} tactic.name
-     * @param {string} tactic.path
-     * @param {string} tactic.type
+     * @param {string} tacticname
+     * @param {string} path
+     * @param {string} type
      * 
      * @returns {Promise<boolean>}
      */
-    async addTactic(username, tactic) {
+    async addTactic(username, tacticName, path, type) {
         try {
-            if (!username || !tactic)
+            if (!username || !tacticName || !path || !type)
                 return false;
 
-            var user = await this.User.findOne({ username: username });
 
-            if (!user) {
-                const newUser = new this.User({ username: username, tactic: [tactic] });
+            const newUser = new this.Tactics({ username: username, name: tacticName, path: path, type: type });
 
-                try {
-                    var d = await newUser.save();
-                    return true;
-                } catch (e) {
-                    return false;
-                }
-            } else {
-                user.tactics.push(tactic);
-                await this.User.findOneAndUpdate({ username: username }, { tactics: user.tactics });
+            try {
+                var d = await newUser.save();
                 return true;
+            } catch (e) {
+                return false;
             }
         } catch (e) {
             return false;
@@ -70,10 +60,15 @@ class UserTacticsDB {
 
     async getTactics(username) {
 
-        var user = await this.User.findOne({ username });
+        var tactics = await this.Tactics.find({ username });
 
-
-        return user.tactics;
+        return tactics.map(t => {
+            return {
+                name: t.name,
+                type: t.type,
+                path: t.path
+            };
+        });
 
     }
 
@@ -84,15 +79,13 @@ class UserTacticsDB {
             if (!name || !type || !username)
                 return false;
 
-            var user = await this.User.findOne({ username: username });
+            var tactic = await this.Tactics.findOne({ username: username, name: name, type: type });
 
-            if (!user) {
+            if (!tactic) {
                 return false;
             }
             else {
-                var index = user.tactics.findIndex(t => t.name == name && t.type == type);
-                user.tactics.splice(index, 1);
-                await this.User.findOneAndUpdate({ username: username }, { tactics: user.tactics });
+                await this.Tactics.deleteOne({ username: username, name: name, type: type });
                 return true;
             }
         } catch (e) {

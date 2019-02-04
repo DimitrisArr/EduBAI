@@ -3,10 +3,10 @@ module.exports = {
     serverPort: 4562,
 
     usernameDB: "EBAdmin",
-    passwordDB: "EdUbA!F0RtH%$",
-    mongoDBHost: `mongodb://localhost:27017/tactics`,
+    passwordDB: "Edu4S58DSFcfglk2399",
+    mongoDBHost: `mongodb://EBAdmin:Edu4S58DSFcfglk2399@localhost:27017/tactics`,
 
-    attackTacticsPath: "",
-    defenciveTacticsPath: ""
+    attackTacticsPath: "C:/temp",
+    defenciveTacticsPath: "C:/temp"
 
 };
