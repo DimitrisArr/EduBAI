@@ -1,0 +1,627 @@
+body{
+    margin: 0 auto;
+    font-family: "Abel";
+    color: white;
+    background-image: url("Resources/background.png");
+    background-color: #cccccc;
+    background-size: 100%;
+    background-repeat: no-repeat;
+    height: 100%;
+}
+
+input {
+    color: black;
+}
+
+.server_port_input{
+    width: 270px;
+    height: 36px;
+    font-size: 25px;
+    margin-top: 26px;
+}
+
+.GObutton{
+    width: 80px;
+}
+
+.basketball_img {
+    margin-top: 5px;
+    width: 32px;
+}
+
+.title_row {
+    height: 130px;
+}
+
+.home_link{
+    font-size: 25px;
+    text-decoration: none;
+    color: white;
+    margin-left: 2px;
+}
+
+.home_link a{
+    text-decoration: none;
+    color: white;
+}
+
+a:hover{
+    text-decoration: none;
+    color: white;
+}
+
+.home_link a:active {
+    text-decoration: none;
+    color: white;
+} 
+
+.home_link a:link {
+    text-decoration: none;
+    color: white;
+}
+
+.home_link a:visited {
+    text-decoration: none;
+    color: white;
+}
+
+.header_row {
+    height: 262px;
+}
+
+.select_match_row {
+    height: 100px;
+}
+
+#text{
+    width:70%;
+    margin-left:10%;
+    margin-top:100px;
+}
+
+.align_middle {
+    text-align: center;
+}
+
+.parent {
+    text-align:center;
+}
+
+.child {
+    margin:auto;
+}
+
+
+#align_right_middle{
+    display:flex;
+    justify-content:flex-end;
+    align-items:center;
+}
+
+#align_left_middle {
+    display:flex;
+    align-items:center;
+}
+
+#btn_register, #btn_login {
+    align-content: center;
+    background-color: #D4ABA2;
+    opacity: 0.8;
+    text-decoration: none;
+    text-align: center;
+    color: white;
+    outline: none;
+    width: 250px;
+    height: 250px;
+    padding-top: 84px;
+    font-size: -webkit-xxx-large;
+}
+
+#btn_register_submit, #btn_login_submit {
+    align-content: center;
+    background-color: #D4ABA2;
+    opacity: 0.8;
+    text-decoration: none;
+    text-align: center;
+    color: white;
+    outline: none;
+    width: 130px;
+    height: 130px;
+    padding-top: 40px;
+    font-size: 30px;
+}
+
+#btn_register_submit_holder_div,  #btn_login_submit_holder_div{
+    padding-left: 50px;
+}
+
+#register_text_id, #login_text_id {
+    color: #9F9D9D;
+    border-bottom: 1px solid #9F9D9D;
+    padding-bottom: 12px;
+    text-align:center;
+}
+
+
+#tooltip, #tooltip_login {
+    position: relative;
+    display: inline-block;
+}
+
+#tooltiptext{
+    width: 300px;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;
+    display: none;
+
+    /* Position the tooltip */
+    position: absolute;
+    z-index: 1;
+    margin-left: -15px;
+    top: -8px;
+}
+
+#tooltiptext_login {
+    width: 300px;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;
+    display: none;
+
+    /* Position the tooltip */
+    position: absolute;
+    z-index: 1;
+    margin-left: -15px;
+    top: -24px;
+}
+
+#registration_success{
+    display: none;
+    font-size: 25px;
+    color: black;
+    padding: 5px 5px 5px 5px;
+}
+
+
+.rcorners1 {
+    border-radius: 400px;
+    padding: 1px;
+    margin: 10px;
+    display: block;
+}
+
+
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 4; /* Sit on top */
+    padding-top: 100px; /* Location of the box */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* Modal Content */
+.modal-content {
+    background-color: #fefefe;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: max-content;
+}
+  
+/* The Close Button */
+.close {
+    color: #aaaaaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+  
+.close:hover,
+.close:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+#log_out_btn {
+    float: right;
+    padding-top: 10px;
+    text-decoration: none;
+}
+
+#white_font {
+    color: white !important;
+}
+
+#footer_index {
+    margin-top: 192px;
+    font-size: 18px;
+    margin-left: 10px;
+}
+
+#footer_main_pages {
+    position: absolute;
+    width: 1409px;
+    left: 15px;
+    top: 675px;
+    line-height: normal;
+    font-size: 20px;
+    text-align: justify;
+}
+
+
+#menu_row {
+    position: absolute;
+    width: 1551px;
+    height: 55px;
+    left: 0px;
+    top: 50px;
+    background: #CFA9A1;
+    border: 1px solid #A7A49E;
+    box-sizing: border-box;
+}
+
+#documentation_menu_text{
+    position: absolute;
+    width: 240px;
+    height: 37px;
+    left: 28px;
+    top: 8px;
+    line-height: normal;
+    font-size: 27px;
+    padding-left: 15px;
+    text-decoration: none;
+    font-weight: 900;
+}
+
+#tactics_menu_text{
+    position: absolute;
+    width: 98px;
+    height: 37px;
+    left: 352px;
+    top: 8px;
+    font-weight: normal;
+    line-height: normal;
+    font-size: 27px;
+    text-decoration: none;
+}
+
+#vertical_separating_line1 {
+    position: absolute;
+    width: 40.01px;
+    height: 0px;
+    left: 252.5px;
+    top: 26px;
+    border: 1px solid #64625D;
+    transform: rotate(-90deg);
+}
+
+#vertical_separating_line2 {
+    position: absolute;
+    width: 40.01px;
+    height: 0px;
+    left: 493.5px;
+    top: 26px;
+    border: 1px solid #64625D;
+    transform: rotate(-90deg);
+}
+
+#main_display_div{
+    position: absolute;
+    width: 1211px;
+    height: 550px;
+    left: 0px;
+    top: 104px;
+
+    background: #FFFFFF;
+    border: 1px solid #A7A49E;
+    box-sizing: border-box;
+}
+
+#online_users_div {
+    position: absolute;
+    width: 326px;
+    height: 550px;
+    left: 1210px;
+    top: 104px;
+
+    background: #FFFFFF;
+    border: 1px solid #A7A49E;
+    box-sizing: border-box;
+}
+
+#online_users_text_id{
+    color: black;
+    border-bottom: 1px solid #A7A49E;
+    padding-bottom: 9px;
+    text-align: center;
+    font-size: 25px;
+    margin-top: 10px;
+}
+
+#online_users_container_div {
+    border: 1px solid #C5BBB2;
+    box-sizing: border-box;
+    position: absolute;
+    width: 292px;
+    height: 462px;
+    left: 17px;
+    top: 65px;
+    overflow: scroll;
+}
+
+p{
+    color: black;
+}
+
+
+
+#predefined_tactics_div{
+    position: absolute;
+    width: 575px;
+    height: 462px;
+    left: 19px;
+    top: 65px;
+    background: #FFFFFF;
+    border: 1px solid #CFA9A1;
+    box-sizing: border-box;
+}
+
+#my_tactics_div{
+    position: absolute;
+    width: 575px;
+    height: 462px;
+    left: 613px;
+    top: 65px;
+    background: #FFFFFF;
+    border: 1px solid #CFA9A1;
+    box-sizing: border-box;
+}
+
+
+#predefined_tactics_text_id{
+    color: black;
+    border-bottom: 1px solid #A7A49E;
+    padding-bottom: 10px;
+    text-align: center;
+    font-size: 25px;
+    margin-top: 13px;
+    position: absolute;
+    width: 284.01px;
+    left: 154px;
+}
+
+#my_tactics_text_id{
+    color: black;
+    border-bottom: 1px solid #A7A49E;
+    padding-bottom: 10px;
+    text-align: center;
+    font-size: 25px;
+    margin-top: 13px;
+    position: absolute;
+    width: 284.01px;
+    left: 750px;
+}
+
+
+#predefined_attacking_div, #my_tactics_attacking_div{
+    position: absolute;
+    width: 573px;
+    height: 231px;
+    background: #FFFFFF;
+    border: 1px solid #CFA9A1;
+    box-sizing: border-box;
+    overflow: scroll;
+}
+
+#predefined_defending_div, #my_tactics_defending_div{
+    position: absolute;
+    width: 573px;
+    height: 230px;
+    top: 231px;
+    background: #FFFFFF;
+    border: 1px solid #CFA9A1;
+    box-sizing: border-box;
+    overflow: scroll;
+}
+
+
+#attacking_sword_img, #defending_shield_img{
+    width: 40px;
+    position: absolute;
+}
+
+#add_tactic_img {
+    width: 40px;
+    position: absolute;
+    left: 521px;
+}
+
+#attacking_text, #defending_text {
+    position: absolute;
+    left: 49px;
+    font-size: 22px;
+    top: 5px;
+}
+
+.tactics{
+    background: #FFFFFF;
+    border: 1px solid #C5BBB2;
+    box-sizing: border-box;
+    margin: 5px 5px 5px 5px;
+}
+
+.tactics_text{
+    font-size: 20px;
+}
+
+.marginBottom45 {
+    margin-bottom: 45px;
+}
+
+
+#tactics_container{
+    display: none;
+}
+
+#view_selected_tactic_div{
+    display: none;
+}
+
+#source_code_box{
+    overflow: scroll;
+    position: absolute;
+    width: 1170px;
+    height: 466px;
+    left: 19px;
+    background: #FFFFFF;
+    border: 1px solid #CFA9A1;
+    box-sizing: border-box;
+}
+
+#selected_tactic_div_text_id{
+    color: black;
+    border-bottom: 1px solid #A7A49E;
+    padding-bottom: 10px;
+    text-align: center;
+    font-size: 25px;
+    margin-top: 13px;
+}
+
+
+#replace_tactic_img {
+    position: absolute;
+    width: 52px;
+    height: 48px;
+    left: 1018px;
+    top: 398px;
+}
+
+#delete_tactic_img {
+    position: absolute;
+    width: 57px;
+    height: 48px;
+    height: 55px;
+    left: 1093px;
+    top: 393px;
+}
+
+#delete_text_id, #play_text_id{
+    color: black;
+    padding-bottom: 10px;
+    text-align: center;
+    font-size: 25px;
+    margin-top: 13px;
+}
+
+
+#confirm_delete_submit, #validate_tactic_submit, #play_submit, #invite_submit, #accept_submit {
+    align-content: center;
+    background-color: #D4ABA2;
+    opacity: 0.8;
+    text-decoration: none;
+    text-align: center;
+    color: white;
+    outline: none;
+    width: 130px;
+    height: 130px;
+    padding-top: 40px;
+    font-size: 30px;
+}
+
+#cancel_delete_submit, #upload_tactic_submit, #cancel_before_submit, #cancel_after_submit, #decline_submit {
+    align-content: center;
+    background-color: #D4ABA2;
+    opacity: 0.8;
+    text-decoration: none;
+    text-align: center;
+    color: white;
+    outline: none;
+    width: 130px;
+    height: 130px;
+    padding-top: 40px;
+    font-size: 30px;
+}
+
+#delete_modal_content_div, #add_attacking_tactic_modal_content_div, #add_defending_tactic_modal_content_div, #replace_tactic_modal_content_div, #play_modal_content_div{
+    contain: content;
+}
+
+#cancel_after_holder_div, #play_holder_div{
+    text-align: center;
+}
+
+#confirm_delete_holder_div, #validate_tactic_holder_div, #validate_tactic_holder_div, #invite_holder_div, #accept_holder_div{
+    float: left;
+}
+
+#cancel_delete_holder_div, #upload_tactic_holder_div, #upload_tactic_holder_div, #cancel_before_holder_div, #decline_holder_div{
+    float: right;
+}
+
+#add_attacking_tactic_text_id, #add_defending_tactic_text_id, #replace_tactic_text_id {
+    color: black;
+    border-bottom: 1px solid black;
+    padding-bottom: 12px;
+    text-align:center;
+    font-size: 27px;
+}
+
+#choose_file_inputID {
+    color: grey;
+    background: white;
+    text-align: -webkit-left;
+}
+
+.user_img_class {
+    margin: 5px 5px 5px 5px;
+    width: 32px;
+    position: absolute;
+    left: 10px;
+    top: 10px;
+}
+
+.username_class{
+    position: absolute;
+    top: 10px;
+    margin: 5px 5px 5px 5px;
+    left: 52px;
+    font-size: 25px;
+}
+
+.user_div{
+    position: relative;
+    height: 50px;
+}
+
+
+/* width */
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: #f1f1f1; 
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #888; 
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #555; 
+}

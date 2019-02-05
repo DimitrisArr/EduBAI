@@ -1,0 +1,335 @@
+body{
+    margin: 0 auto;
+    font-family: "Abel";
+    color: black;
+    background-color: whitesmoke;
+    background-size: 100%;
+    background-repeat: no-repeat;
+    height: 100%;
+}
+
+p.solid {
+    border-style: solid;
+    border-color: #E5A61C;
+}
+
+#instructions{
+    font-size: 25px;
+}
+
+#instructions_div {
+    margin-top: -26px;
+}
+
+
+.tactics{
+    font-size: 25px;
+    border-radius: 25px;
+
+}
+
+.tactics_text{
+    font-size: 20px;
+    border-radius: 25px;
+    padding: 2px 2px 2px 10px;
+}
+
+
+input {
+    color: black;
+}
+
+.server_port_input{
+    width: 270px;
+    height: 36px;
+    font-size: 25px;
+    margin-top: 26px;
+}
+
+.GObutton{
+    width: 80px;
+}
+
+#go_btn_players_placed_btn {
+    float: left;    
+}
+
+#round_p{
+    float: right;
+    margin-left: 240px;
+    margin-right: 20px;
+    font-size: 25px;
+}
+
+#score_p {
+    float: right;
+    margin-left: 240px;
+    margin-right: 20px;
+    font-size: 25px;
+}
+
+.basketball_img {
+    margin-top: 5px;
+    width: 32px;
+}
+
+.title_row {
+    height: 100px;
+}
+
+.home_link{
+    font-size: 25px;
+    text-decoration: none;
+    color: black;
+    margin-left: 2px;
+}
+
+.home_link a{
+    text-decoration: none;
+    color: black;  
+}
+
+a:hover{
+    text-decoration: none;
+    color: black;
+}
+
+.home_link a:active {
+    text-decoration: none;
+    color: black;  
+} 
+
+.home_link a:link {
+    text-decoration: none;
+    color: black;    
+}
+
+.home_link a:visited {
+    text-decoration: none;
+    color: black;    
+}
+
+.header_row {
+    height: 262px;
+}
+
+.select_match_row {
+    height: 100px;
+}
+
+#text{
+    width:70%;
+    margin-left:10%;
+    margin-top:100px;
+}
+
+.align_middle {
+    text-align: center;
+}
+
+.parent {
+    text-align:center;
+}
+
+.child {
+    margin:auto;
+}
+
+#align_right_middle{
+    display:flex;
+    justify-content:flex-end;
+    align-items:center;
+}
+
+#align_left_middle {
+    display:flex;
+    align-items:center;
+}
+
+.basket_pictures{
+    position: absolute;
+    z-index: 3;
+    margin: -14px;
+    margin-top: 85px;
+    height: 200px;
+}
+
+#right_basket_picture{
+    margin-left: -145px;
+}
+
+.team_nums{
+    font-size: 28px;
+}
+
+.grid-container {
+    display: grid;
+    grid-template-columns: auto auto auto auto auto auto auto;
+    padding-top: 8px;
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+  .grid-item {
+    background-color: rgba(255, 255, 255, 0.8);
+    border: 1px solid rgba(0, 0, 0, 0.8);
+    padding: 2px;
+    font-size: 30px;
+    text-align: center;
+    height: 85px;
+    width: 173px;
+    z-index: 0;
+  }
+
+.players{
+    height: 80px;
+    z-index: 2;
+}
+
+.players_div {
+    z-index: 2;
+    display: inline-table;
+}
+
+#ellipse {
+    margin-top: -450px;
+    z-index: -1;
+}
+
+.modal_p {
+    font-size: 26px;
+}
+
+/* #player1_team1 {
+    margin-right: -288px;
+}
+
+#player3_team1 {
+    margin-left: -288px;
+}
+
+#player1_team2 {
+    margin-right: -288px;
+}
+
+#player3_team2 {
+    margin-left: -288px;
+} */
+
+
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 4; /* Sit on top */
+    padding-top: 100px; /* Location of the box */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* Modal Content */
+.modal-content {
+    background-color: #fefefe;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: max-content;
+}
+  
+/* The Close Button */
+.close {
+    color: #aaaaaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+  
+.close:hover,
+.close:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+#tactics_div{
+    display: flex;
+    font-size: 25px;
+}
+
+.info_down_imgs{
+    margin-left: 150px;
+    height: 60px;
+}
+
+
+.p_info{
+    font-size: 30px;
+    margin-left: 20px;
+    margin-top: 10px;
+}
+
+#div_containing_OK_btn{
+    float: right;
+}
+
+.tactics_select_header_div{
+    padding-bottom: 90px;
+}
+
+.sword_or_shield_icon_class{
+    position: absolute;
+}
+
+.default_hidden{
+    display: none;
+}
+
+.defend_attack_tactics_text{
+    position: absolute;
+    left: 150px;
+    top: 42px;
+}
+
+
+.tactics_header_h1{
+    color: black;
+    border-bottom: 1px solid #A7A49E;
+    padding-bottom: 10px;
+    text-align: center;
+    font-size: 25px;
+    margin-top: 0px;
+}
+
+#div_with_predefined_defend_tactics_btns, #div_with_predefined_attack_tactics_btns{
+    float: left;
+    background: #FFFFFF;
+    border: 1px solid #CFA9A1;
+    box-sizing: border-box;
+    overflow: scroll;
+    padding: 5px 5px 5px 5px;
+    height: 214px;
+    width: 500px;
+}
+
+#div_with_my_defend_tactics_btns, #div_with_my_attack_tactics_btns {
+    float: right;
+    background: #FFFFFF;
+    border: 1px solid #CFA9A1;
+    box-sizing: border-box;
+    overflow: scroll;
+    padding: 5px 5px 5px 5px;
+    height: 214px;
+    width: 500px;
+}
+
+.contain_content{
+    contain: content;
+}
+
+.float_right{
+    float: right;
+}
