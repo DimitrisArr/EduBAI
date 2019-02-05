@@ -13,7 +13,8 @@ const MESSAGE_TYPES = {
     USERS: "users",
     INVITE: "invite",
     ACCEPT: "accept",
-    DECLINE: "decline"
+    DECLINE: "decline",
+    CANCEL: "cancel"
 };
 
 class StatusSocket {
@@ -42,7 +43,7 @@ class StatusSocket {
                 ws: ws
             });
 
-            
+
             playersStatus.setStatus(ws.protocol, statuses.ONLINE);
 
             /*****************/
@@ -114,6 +115,12 @@ class StatusSocket {
 
     sendAccept(from, to) {
         return this.sendPlayStatusUser(from, to, MESSAGE_TYPES.ACCEPT);
+    }
+
+    /***********************************/
+
+    sendCancel(from, to) {
+        return this.sendPlayStatusUser(from, to, MESSAGE_TYPES.CANCEL);
     }
 
     /***********************************/

@@ -57,6 +57,18 @@ class InvitationSystem {
         return true;
     }
 
+    cancelInvitation(from, to) {
+        logger.log(`Sending invitation cancel from ${from} to ${to}`);
+
+        var pIndex = this.onInvite.findIndex(p => p.to == to && p.from == from)
+        if (pIndex == -1)
+            return false;
+
+        this.onInvite.splice(pIndex, 1);
+        statusSocket.sendCancel(from, to);
+        return true;
+    }
+
 }
 
 module.exports = new InvitationSystem();

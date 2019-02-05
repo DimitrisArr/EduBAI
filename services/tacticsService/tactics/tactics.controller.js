@@ -92,6 +92,44 @@ module.exports.getTactics = async (req, res) => {
 
 /******************************************************************/
 
+module.exports.getAttackTactics = async (req, res) => {
+
+    var username = req.query.username;
+
+    if (!username) {
+        res.status(400).send("parameter is missing");
+        return;
+    }
+
+    logger.log("get attack tactics for user:", username);
+
+    var tactics = await tacticsDb.getTactics(username);
+    tactics = tactics.filter(t => t.type == 'attack');
+    res.send(tactics);
+
+};
+
+/******************************************************************/
+
+module.exports.getDefenceTactics = async (req, res) => {
+
+    var username = req.query.username;
+
+    if (!username) {
+        res.status(400).send("parameter is missing");
+        return;
+    }
+
+    logger.log("get defence tactics for user:", username);
+
+    var tactics = await tacticsDb.getTactics(username);
+    tactics = tactics.filter(t => t.type == 'defence');
+    res.send(tactics);
+
+};
+
+/******************************************************************/
+
 module.exports.deleteTactic = async (req, res) => {
 
     var username = req.body.username;

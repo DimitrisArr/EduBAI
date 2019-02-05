@@ -13,6 +13,7 @@ module.exports.setRoutes = (app) => {
     app.post('/inviteOpponent', controller.inviteOpponent);
     app.post('/acceptInvitation', controller.acceptInvitation);
     app.post('/declineInvitation', controller.declineInvitation);
+    app.post('/cancelInvitation', controller.cancelInvitation);
 
 }
 

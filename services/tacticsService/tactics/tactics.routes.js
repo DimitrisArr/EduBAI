@@ -19,6 +19,9 @@ module.exports.setRoutes = (app) => {
     app.get('/getTactics', controller.getTactics);
     app.get('/getTacticData', controller.getTacticData);
 
+    app.get('/getDefenceTactics', controller.getDefenceTactics);
+    app.get('/getAttackTactics', controller.getAttackTactics);
+
 }
 
 /******************************************************************/

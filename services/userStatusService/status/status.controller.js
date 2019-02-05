@@ -97,3 +97,20 @@ module.exports.declineInvitation = (req, res) => {
 }
 
 /******************************************************************/
+
+module.exports.cancelInvitation = (req, res) => {
+    var from = req.body.from;
+    var to = req.body.to;
+
+    if (!from || !to) {
+        res.status(400).send('parameter(s) missiing');
+        return;
+    }
+
+    var isOk = invitationSystem.cancelInvitation(from, to);
+
+    if (!isOk)
+        res.status(405).send('cant cancel invitation');
+    else
+        res.send('ok');
+}
