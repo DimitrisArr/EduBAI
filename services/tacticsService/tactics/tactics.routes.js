@@ -12,7 +12,7 @@ var upload = multer({ storage: storage });
 
 module.exports.setRoutes = (app) => {
 
-    app.post('/newAttackTactic', controller.newAttackTactic);
+    app.post('/newAttackTactic', upload.single('file'), controller.newAttackTactic);
     app.post('/newDefenceTactic', upload.single('file'), controller.newDefenciveTactic);
     app.post('/deleteTactic', controller.deleteTactic);
 
@@ -21,6 +21,8 @@ module.exports.setRoutes = (app) => {
 
     app.get('/getDefenceTactics', controller.getDefenceTactics);
     app.get('/getAttackTactics', controller.getAttackTactics);
+
+    app.get('/getPredTacticData', controller.getPredefinedTactic);
 
 }
 

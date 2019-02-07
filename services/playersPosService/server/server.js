@@ -33,7 +33,7 @@ class PosServer {
                     opponent: opp
                 });
             }).catch((err) => {
-                ws.close(1, `can't find registered opponent`);
+                ws.close();
             });
 
 
