@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="styleInGame.css">
+    <script src="jquery.min.js"></script>
+    <script src="services/playerPositioning.js"></script>
+    <script src="services/tactics.js"></script>
+    <script src="code_game.js"></script>
+    <script src="underscore-min.js"></script>
+    <link href='https://fonts.googleapis.com/css?family=Abel' rel='stylesheet'>
+    <title>Shooting Stars - basketball game</title>
+</head>
+
+<body>
+
+    <div class="container-fluid">
+
+        <div>
+            <a href="index.html" class="home_link" role="button">
+                <input type="image" class="basketball_img" src="Resources/basketball.png" />
+                Shooting Stars
+            </a>
+        </div>
+
+
+        <div class="row" id="instructions_div">
+            <div class="col-sm-4"></div>
+            <div class="col-sm-4">
+                <div class="align_middle" id="instructions">
+                    <p class="solid" id="instructions_text"> Place the players on the court and press GO </p>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <a id="go_btn_players_placed" href="#">
+                    <input id="go_btn_players_placed_btn" type="image" class="GObutton" src="Resources/GO.png" onclick="displayTacticsDiv()" />
+                </a>
+                <div class="roundAndScore">
+                    <p id="round_p">
+                        Round 1
+                    </p>
+                    <p id="score_p">
+                        Score 0-0
+                    </p>
+                </div>
+
+            </div>
+        </div>
+
+
+        <!-- ____________________________________________________________________________________________________________________________________ -->
+
+
+        <!-- The attack Modal -->
+        <div id="attackModal" class="modal">
+            <!-- Modal content -->
+            <div class="modal-content contain_content">
+                <span class="close">&times;</span>
+                <div class="solid" id="attack_tactics_div">
+                    <div class="tactics_select_header_div">
+                        <img class="sword_or_shield_icon_class" src="Resources/sword.png">
+                        <p class="modal_p defend_attack_tactics_text">You are attacking! Choose a tactic:</p>
+                    </div>
+                    <div class="row">
+                        <div class=col-sm-6>
+                            <h1 class="tactics_header_h1">
+                                Predefined Tactics
+                            </h1>
+                            <div id="div_with_predefined_attack_tactics_btns">
+                                <div class="align_middle tactics">
+                                    <p class="solid tactics_text predef" role="button" onclick="tacticChosen(this)">Ball
+                                        holder goes under the basket and shoots</p>
+                                </div>
+                                <div class="align_middle tactics">
+                                    <p class="solid tactics_text predef" role="button" onclick="tacticChosen(this)">Choose
+                                        what to do based on probabilities</p>
+                                </div>
+                                <div class="align_middle tactics">
+                                    <p class="solid tactics_text predef" role="button" onclick="tacticChosen(this)">All
+                                        players go to baseline</p>
+                                </div>
+                                <div class="align_middle tactics">
+                                    <p class="solid tactics_text predef" role="button" onclick="tacticChosen(this)">Each
+                                        player goes to the baseline closest to them</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class=col-sm-6>
+                            <h1 class="tactics_header_h1">
+                                My Tactics
+                            </h1>
+                            <div id="div_with_my_attack_tactics_btns">
+                            </div>
+                        </div>
+                    </div>
+                    <a href="#">
+                        <input id="go_btn_attack_tactic_selected" type="image" class="GObutton float_right" src="Resources/GO.png"
+                            onclick="onStartGameAfterSelectTactic()" />
+                    </a>
+                </div>
+            </div>
+        </div>
+
+
+
+
+        <!-- The defend Modal -->
+        <div id="defendModal" class="modal">
+            <!-- Modal content -->
+            <div class="modal-content contain_content">
+                <span class="close">&times;</span>
+                <div class="solid" id="defend_tactics_div">
+                    <div class="tactics_select_header_div">
+                        <img class="sword_or_shield_icon_class" src="Resources/shield.png">
+                        <p class="modal_p defend_attack_tactics_text">You are defending! Choose a tactic:</p>
+                    </div>
+                    <div class="row">
+                        <div class=col-sm-6>
+                            <h1 class="tactics_header_h1">
+                                Predefined Tactics
+                            </h1>
+                            <div id="div_with_predefined_defend_tactics_btns">
+                                <div class="align_middle tactics">
+                                    <p class="solid tactics_text predef" role="button" onclick="tacticChosen(this)">One player
+                                        under the basket and the others on the ball holder</p>
+                                </div>
+                                <div class="align_middle tactics">
+                                    <p class="solid tactics_text predef" role="button" onclick="tacticChosen(this)">Each
+                                        player on one opponent</p>
+                                </div>
+                                <div class="align_middle tactics">
+                                    <p class="solid tactics_text predef" role="button" onclick="tacticChosen(this)">Players
+                                        stay around the basket (two point shoots)</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class=col-sm-6>
+                            <h1 class="tactics_header_h1">
+                                My Tactics
+                            </h1>
+                            <div id="div_with_my_defend_tactics_btns">
+                            </div>
+                        </div>
+                    </div>
+                    <a href="#">
+                        <input id="go_btn_defend_tactic_selected" type="image" class="GObutton float_right" src="Resources/GO.png"
+                            onclick="onStartGameAfterSelectTactic()" />
+                    </a>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- PlayersPlacement Modal -->
+        <div id="placementAlertModal" class="modal">
+            <!-- Modal content -->
+            <div class="modal-content" style="contain: content;">
+                <span class="close">&times;</span>
+                <div class="solid" id="placement_alert_div">
+                    <p id="alert_placement_text_id" class="modal_p">You must place all players on the court!</p>
+                    <div id="div_containing_OK_btn">
+                        <a href="#">
+                            <input id="OK_id" type="image" class="GObutton" src="Resources/ok.svg" onclick="onOKclick()" />
+                        </a>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+        <!-- ____________________________________________________________________________________________________________________________________ -->
+
+
+        <div class="row parent">
+            <div class="col-sm-1">
+                <img class="basket_pictures" src="Resources/basket_left.png">
+            </div>
+            <div class="col-sm-10">
+                <div id="court_grid" class="grid-container">
+                    <div class="grid-item" id="cell_11" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+                    <div class="grid-item" id="cell_12" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+                    <div class="grid-item" id="cell_13" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+                    <div class="grid-item" id="cell_14" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+                    <div class="grid-item" id="cell_15" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+                    <div class="grid-item" id="cell_16" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+                    <div class="grid-item" id="cell_17" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+                    <div class="grid-item" id="cell_21" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+                    <div class="grid-item" id="cell_22" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+                    <div class="grid-item" id="cell_23" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+                    <div class="grid-item" id="cell_24" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+                    <div class="grid-item" id="cell_25" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+                    <div class="grid-item" id="cell_26" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+                    <div class="grid-item" id="cell_27" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+                    <div class="grid-item" id="cell_31" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+                    <div class="grid-item" id="cell_32" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+                    <div class="grid-item" id="cell_33" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+                    <div class="grid-item" id="cell_34" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+                    <div class="grid-item" id="cell_35" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+                    <div class="grid-item" id="cell_36" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+                    <div class="grid-item" id="cell_37" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+                    <div class="grid-item" id="cell_41" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+                    <div class="grid-item" id="cell_42" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+                    <div class="grid-item" id="cell_43" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+                    <div class="grid-item" id="cell_44" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+                    <div class="grid-item" id="cell_45" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+                    <div class="grid-item" id="cell_46" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+                    <div class="grid-item" id="cell_47" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+                    <div class="grid-item" id="cell_51" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+                    <div class="grid-item" id="cell_52" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+                    <div class="grid-item" id="cell_53" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+                    <div class="grid-item" id="cell_54" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+                    <div class="grid-item" id="cell_55" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+                    <div class="grid-item" id="cell_56" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+                    <div class="grid-item" id="cell_57" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+
+                </div>
+                <img id="ellipse" src="Resources/middle_ellipse.png">
+            </div>
+            <div class="col-sm-1">
+                <img class="basket_pictures" id="right_basket_picture" src="Resources/basket_right.png">
+            </div>
+        </div>
+
+
+        <div class="row default_hidden" id="info_attacking_or_defending_div">
+            <img class="info_down_imgs" src="Resources/shield.png" />
+            <p class="p_info"></p>
+        </div>
+
+        <div class="row default_hidden" id="info_my_tactic_div">
+            <img class="info_down_imgs" src="Resources/thinking_mind.png" />
+            <p class="p_info"></p>
+        </div>
+
+        <div class="row default_hidden" id="info_opponent_moves_div">
+            <img class="info_down_imgs" src="Resources/idea.png" />
+            <p class="p_info" id="opponent_info_text"></p>
+        </div>
+
+
+        <div id="players_holder" class="row">
+            <div class="col-sm-2"></div>
+            <div class="col-sm-3">
+                <div class="align_middle" id="players_team1_div">
+                    <p class="team_nums" id="team1_title"> Team 1 </p>
+                    <div class="row">
+                        <div id="p11off" class="col-sm-4">
+                            <div class="align_middle players_div" id="player1_team1_div">
+                                <img class="players" id="player1_team1" src="Resources/player1_team1.png" />
+                            </div>
+                        </div>
+                        <div id="p21off" class="col-sm-4">
+                            <div class="align_middle players_div" id="player2_team1_div">
+                                <img class="players" id="player2_team1" src="Resources/player2_team1.png" />
+                            </div>
+                        </div>
+                        <div id="p31off" class="col-sm-4">
+                            <div class="align_middle players_div" id="player3_team1_div">
+                                <img class="players" id="player3_team1" src="Resources/player3_team1.png" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm-2">
+                <div class="align_middle" id="ball_img_id_div">
+                    <img class="ball_img" id="ball_img_id" src="Resources/basketball.png" draggable="true" ondragstart="drag(event)"
+                        id="dragball" />
+                </div>
+            </div>
+
+            <div class="col-sm-3">
+                <div class="align_middle" id="players_team2_div">
+                    <p class="team_nums" id="team2_title"> Team 2 </p>
+                    <div class="row">
+                        <div id="p12off" class="col-sm-4">
+                            <div class="align_middle players_div" id="player1_team2_div">
+                                <img class="players" id="player1_team2" src="Resources/player1_team2.png" />
+                            </div>
+                        </div>
+                        <div id="p22off" class="col-sm-4">
+                            <div class="align_middle players_div" id="player2_team2_div">
+                                <img class="players" id="player2_team2" src="Resources/player2_team2.png" />
+                            </div>
+                        </div>
+                        <div id="p32off" class="col-sm-4">
+                            <div class="align_middle players_div" id="player3_team2_div">
+                                <img class="players" id="player3_team2" src="Resources/player3_team2.png" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-2"></div>
+        </div>
+
+
+
+
+
+
+
+    </div>
+
+</body>
+
+</html>

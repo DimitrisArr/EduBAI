@@ -1,16 +1,24 @@
+html{
+    min-height: 100%;
+}
+
 body{
     margin: 0 auto;
     font-family: "Abel";
     color: white;
     background-image: url("Resources/background.png");
     background-color: #cccccc;
-    background-size: 100%;
+    background-size:  100% 100%;
     background-repeat: no-repeat;
-    height: 100%;
+    min-height: 100%;
 }
 
 input {
     color: black;
+}
+
+#source_code_text{
+    color:black;
 }
 
 .server_port_input{
@@ -30,7 +38,7 @@ input {
 }
 
 .title_row {
-    height: 130px;
+    height: 50px;
 }
 
 .home_link{
@@ -70,7 +78,7 @@ a:hover{
 }
 
 .select_match_row {
-    height: 100px;
+    height: 154px;
 }
 
 #text{
@@ -221,10 +229,11 @@ a:hover{
   
 /* The Close Button */
 .close {
-    color: #aaaaaa;
+    color: #919191;
     float: right;
-    font-size: 28px;
+    font-size: 36px;
     font-weight: bold;
+    margin-right: 4px;
 }
   
 .close:hover,
@@ -245,40 +254,34 @@ a:hover{
 }
 
 #footer_index {
-    margin-top: 192px;
+    
     font-size: 18px;
     margin-left: 10px;
+    position: absolute;
+    bottom: 0;
 }
 
 #footer_main_pages {
-    position: absolute;
-    width: 1409px;
-    left: 15px;
-    top: 675px;
-    line-height: normal;
     font-size: 20px;
     text-align: justify;
 }
 
 
 #menu_row {
-    position: absolute;
-    width: 1551px;
+    display: flex;
     height: 55px;
-    left: 0px;
-    top: 50px;
     background: #CFA9A1;
     border: 1px solid #A7A49E;
     box-sizing: border-box;
 }
 
+#documentation_menu_div{
+    width: 250px;
+}
 #documentation_menu_text{
-    position: absolute;
     width: 240px;
     height: 37px;
-    left: 28px;
-    top: 8px;
-    line-height: normal;
+    line-height: 55px;
     font-size: 27px;
     padding-left: 15px;
     text-decoration: none;
@@ -286,44 +289,36 @@ a:hover{
 }
 
 #tactics_menu_text{
-    position: absolute;
-    width: 98px;
-    height: 37px;
-    left: 352px;
-    top: 8px;
-    font-weight: normal;
-    line-height: normal;
-    font-size: 27px;
-    text-decoration: none;
+        width: 250px;
+        text-align: center;
+        font-weight: normal;
+        line-height: 55px;
+        font-size: 27px;
+        text-decoration: none;
 }
 
+
 #vertical_separating_line1 {
-    position: absolute;
-    width: 40.01px;
-    height: 0px;
-    left: 252.5px;
-    top: 26px;
+    width: 1px;
+    height: 40px;
+    margin-top: 7.5px;
     border: 1px solid #64625D;
-    transform: rotate(-90deg);
 }
 
 #vertical_separating_line2 {
-    position: absolute;
-    width: 40.01px;
-    height: 0px;
-    left: 493.5px;
-    top: 26px;
+    width: 1px;
+    height: 40px;
+    margin-top: 7.5px;
     border: 1px solid #64625D;
-    transform: rotate(-90deg);
+}
+
+#main_conent{
+    position: relative;
 }
 
 #main_display_div{
-    position: absolute;
-    width: 1211px;
     height: 550px;
-    left: 0px;
-    top: 104px;
-
+    margin-right: 326px;
     background: #FFFFFF;
     border: 1px solid #A7A49E;
     box-sizing: border-box;
@@ -332,10 +327,9 @@ a:hover{
 #online_users_div {
     position: absolute;
     width: 326px;
-    height: 550px;
-    left: 1210px;
-    top: 104px;
-
+    height: 100%;
+    top: 0px;
+    right: 0px;
     background: #FFFFFF;
     border: 1px solid #A7A49E;
     box-sizing: border-box;
@@ -368,56 +362,47 @@ p{
 
 
 #predefined_tactics_div{
-    position: absolute;
-    width: 575px;
     height: 462px;
-    left: 19px;
-    top: 65px;
+    width: 50%;
     background: #FFFFFF;
     border: 1px solid #CFA9A1;
     box-sizing: border-box;
+    margin-top: 15px;
 }
 
 #my_tactics_div{
-    position: absolute;
-    width: 575px;
     height: 462px;
-    left: 613px;
-    top: 65px;
     background: #FFFFFF;
     border: 1px solid #CFA9A1;
     box-sizing: border-box;
+    width: 50%;
+    margin-top: 15px;
 }
 
 
 #predefined_tactics_text_id{
+    margin: 0 auto;
     color: black;
     border-bottom: 1px solid #A7A49E;
     padding-bottom: 10px;
-    text-align: center;
     font-size: 25px;
     margin-top: 13px;
-    position: absolute;
-    width: 284.01px;
-    left: 154px;
+    width: 280px;
 }
 
 #my_tactics_text_id{
+    margin: 0 auto;
     color: black;
     border-bottom: 1px solid #A7A49E;
     padding-bottom: 10px;
-    text-align: center;
     font-size: 25px;
     margin-top: 13px;
-    position: absolute;
-    width: 284.01px;
-    left: 750px;
+    width: 280px;
 }
 
 
 #predefined_attacking_div, #my_tactics_attacking_div{
-    position: absolute;
-    width: 573px;
+    width: 100%;
     height: 231px;
     background: #FFFFFF;
     border: 1px solid #CFA9A1;
@@ -426,8 +411,6 @@ p{
 }
 
 #predefined_defending_div, #my_tactics_defending_div{
-    position: absolute;
-    width: 573px;
     height: 230px;
     top: 231px;
     background: #FFFFFF;
@@ -445,14 +428,13 @@ p{
 #add_tactic_img {
     width: 40px;
     position: absolute;
-    left: 521px;
+    right: 10px;
 }
 
 #attacking_text, #defending_text {
     position: absolute;
     left: 49px;
     font-size: 22px;
-    top: 5px;
 }
 
 .tactics{
@@ -468,26 +450,33 @@ p{
 
 .marginBottom45 {
     margin-bottom: 45px;
+    position: relative;
 }
 
 
 #tactics_container{
     display: none;
+    width:100%;
+    flex-wrap: wrap;
+}
+.centerT{
+    width: 50%;
+    text-align: center;
 }
 
 #view_selected_tactic_div{
     display: none;
+    position: relative;
 }
 
 #source_code_box{
     overflow: scroll;
-    position: absolute;
-    width: 1170px;
-    height: 466px;
-    left: 19px;
+    width: 100%;
+    height: 479px;
     background: #FFFFFF;
     border: 1px solid #CFA9A1;
     box-sizing: border-box;
+    position: relative;
 }
 
 #selected_tactic_div_text_id{
@@ -497,6 +486,12 @@ p{
     text-align: center;
     font-size: 25px;
     margin-top: 13px;
+    display: inline-block;
+    margin: 0 auto;
+    margin-top:5px;
+    margin-bottom: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
 }
 
 
@@ -509,12 +504,11 @@ p{
 }
 
 #delete_tactic_img {
-    position: absolute;
+    position: fixed;
     width: 57px;
-    height: 48px;
     height: 55px;
-    left: 1093px;
-    top: 393px;
+    right: 375px;
+    top: 560px;
 }
 
 #delete_text_id, #play_text_id{

@@ -14,6 +14,12 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
+import java.io.DataOutputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
+
+;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -70,7 +76,11 @@ public class ASPExecutor {
 
             this.tactic = tactic;
 
-            projectFile = attTactics.get(tactic + (leftCourt ? "left" : "right"));
+            if (attTactics.containsKey(tactic + (leftCourt ? "left" : "right"))) {
+                projectFile = attTactics.get(tactic + (leftCourt ? "left" : "right"));
+            } else {
+                projectFile = tactic;
+            }
 
             String[] params = getAttackASPParameters(data, timepoint, isPlayer1);
 
@@ -78,58 +88,74 @@ public class ASPExecutor {
 
             String[] result = Stream.concat(Arrays.stream(command), Arrays.stream(params)).toArray(String[]::new);
 
-            Process p = Runtime.getRuntime().exec(result);
+            String com = String.join(" ", result);
 
-            BufferedReader in = new BufferedReader(
-                    new InputStreamReader(p.getInputStream()));
+//            Process p = Runtime.getRuntime().exec(result);
+//
+//            BufferedReader in = new BufferedReader(
+//                    new InputStreamReader(p.getInputStream()));
+//
+//            String fullLine = "";
+//            String line;
+//            while ((line = in.readLine()) != null) {
+//                fullLine += line + " ";
+//            }
+            System.out.println("exec input: " + com);
+            String fullLine = executeCommandRemotly(com);
+            System.out.println("Clingo output: " + fullLine);
 
-            String fullLine = "";
-            String line;
-            while ((line = in.readLine()) != null) {
-                fullLine += line + " ";
+            if (fullLine == null) {
+                return null;
             }
-
-            in.close();
-
+            //    in.close();
             return parseAttcData(fullLine, playerName, isPlayer1);
 
-        } catch (IOException e) {
-            System.err.println("Error while trying to run clingo: " + e.getMessage());
+        } catch (Exception e) {
+            System.out.println("Error while trying to run clingo: " + e.getMessage());
             return null;
         }
     }
 
     public String executeDefence(PlayersData data, int timepoint, String tactic, boolean leftCourt, String playerName, boolean isPlayer1) {
-        try {
-            this.tactic = tactic;
+        this.tactic = tactic;
 
+        if (!defTactics.containsKey(tactic)) {
+            projectFile = tactic;
+        } else {
             projectFile = defTactics.get(tactic);
+        }
 
-            String[] params = getDefenceASPParameters(data, timepoint, leftCourt, isPlayer1);
+        String[] params = getDefenceASPParameters(data, timepoint, leftCourt, isPlayer1);
 
-            String[] command = {clingoPath + "clingo", projectFile, gameEnvironment, gameUpdate, decFile};
+        String[] command = {clingoPath + "clingo", projectFile, gameEnvironment, gameUpdate, decFile};
 
-            String[] result = Stream.concat(Arrays.stream(command), Arrays.stream(params)).toArray(String[]::new);
+        String[] result = Stream.concat(Arrays.stream(command), Arrays.stream(params)).toArray(String[]::new);
 
-            Process p = Runtime.getRuntime().exec(result);
+        String com = String.join(" ", result);
+        //System.out.println("exec input: " + com);
 
-            BufferedReader in = new BufferedReader(
-                    new InputStreamReader(p.getInputStream()));
+//            Process p = Runtime.getRuntime().exec(result);
+//
+//            BufferedReader in = new BufferedReader(
+//                    new InputStreamReader(p.getInputStream()));
+//
+//            String fullLine = "";
+//            String line;
+//            while ((line = in.readLine()) != null) {
+//                fullLine += line + " ";
+//            }
+//
+//            in.close();
+        System.out.println("exec input: " + com);
+        String fullLine = executeCommandRemotly(com);
+        System.out.println("Clingo output: " + fullLine);
 
-            String fullLine = "";
-            String line;
-            while ((line = in.readLine()) != null) {
-                fullLine += line + " ";
-            }
-
-            in.close();
-
-            return parseDefData(fullLine, playerName, isPlayer1);
-
-        } catch (IOException e) {
-            System.err.println("Error while trying to run clingo: " + e.getMessage());
+        if (fullLine == null) {
             return null;
         }
+
+        return parseDefData(fullLine, playerName, isPlayer1);
+
     }
 
     public String parseAttcData(String data, String playerName, boolean isPlayer1) {
@@ -275,23 +301,60 @@ public class ASPExecutor {
 
         parameters.add("-c tmpt=" + timepoint);
 
-        parameters.add("-c p1x=" + data.p11X);
-        parameters.add("-c p1y=" + data.p11Y);
+//        parameters.add("-c p1x=" + data.p11X);
+//        parameters.add("-c p1y=" + data.p11Y);
+//
+//        parameters.add("-c p2x=" + data.p12X);
+//        parameters.add("-c p2y=" + data.p12Y);
+//
+//        parameters.add("-c p3x=" + data.p13X);
+//        parameters.add("-c p3y=" + data.p13Y);
+//
+//        parameters.add("-c op1x=" + data.p21X);
+//        parameters.add("-c op1y=" + data.p21Y);
+//
+//        parameters.add("-c op2x=" + data.p22X);
+//        parameters.add("-c op2y=" + data.p22Y);
+//
+//        parameters.add("-c op3x=" + data.p23X);
+//        parameters.add("-c op3y=" + data.p23Y);
+        if (isPlayer1) {
+            parameters.add("-c p1x=" + data.p11X);
+            parameters.add("-c p1y=" + data.p11Y);
 
-        parameters.add("-c p2x=" + data.p12X);
-        parameters.add("-c p2y=" + data.p12Y);
+            parameters.add("-c p2x=" + data.p12X);
+            parameters.add("-c p2y=" + data.p12Y);
 
-        parameters.add("-c p3x=" + data.p13X);
-        parameters.add("-c p3y=" + data.p13Y);
+            parameters.add("-c p3x=" + data.p13X);
+            parameters.add("-c p3y=" + data.p13Y);
 
-        parameters.add("-c op1x=" + data.p21X);
-        parameters.add("-c op1y=" + data.p21Y);
+            parameters.add("-c op1x=" + data.p21X);
+            parameters.add("-c op1y=" + data.p21Y);
 
-        parameters.add("-c op2x=" + data.p22X);
-        parameters.add("-c op2y=" + data.p22Y);
+            parameters.add("-c op2x=" + data.p22X);
+            parameters.add("-c op2y=" + data.p22Y);
 
-        parameters.add("-c op3x=" + data.p23X);
-        parameters.add("-c op3y=" + data.p23Y);
+            parameters.add("-c op3x=" + data.p23X);
+            parameters.add("-c op3y=" + data.p23Y);
+        } else {
+            parameters.add("-c p1x=" + data.p21X);
+            parameters.add("-c p1y=" + data.p21Y);
+
+            parameters.add("-c p2x=" + data.p22X);
+            parameters.add("-c p2y=" + data.p22Y);
+
+            parameters.add("-c p3x=" + data.p23X);
+            parameters.add("-c p3y=" + data.p23Y);
+
+            parameters.add("-c op1x=" + data.p11X);
+            parameters.add("-c op1y=" + data.p11Y);
+
+            parameters.add("-c op2x=" + data.p12X);
+            parameters.add("-c op2y=" + data.p12Y);
+
+            parameters.add("-c op3x=" + data.p13X);
+            parameters.add("-c op3y=" + data.p13Y);
+        }
 
         parameters.add("-c myp1=" + (isPlayer1 ? TeamData.myPlayer1 : TeamData.oppPlayer1));
         parameters.add("-c myp2=" + (isPlayer1 ? TeamData.myPlayer2 : TeamData.oppPlayer2));
@@ -335,13 +398,31 @@ public class ASPExecutor {
         parameters.add("-c opp2=" + (isPlayer1 ? TeamData.oppPlayer2 : TeamData.myPlayer2));
         parameters.add("-c opp3=" + (isPlayer1 ? TeamData.oppPlayer3 : TeamData.myPlayer3));
 
-        parameters.add("-c tm_B_p1_pos=(" + data.p11X + "," + data.p11Y + ")");
-        parameters.add("-c tm_B_p2_pos=(" + data.p12X + "," + data.p12Y + ")");
-        parameters.add("-c tm_B_p3_pos=(" + data.p13X + "," + data.p13Y + ")");
+        if (!isPlayer1) {
+            parameters.add("-c tm_B_p1_pos=(" + data.p21X + "," + data.p21Y + ")");
+            parameters.add("-c tm_B_p2_pos=(" + data.p22X + "," + data.p22Y + ")");
+            parameters.add("-c tm_B_p3_pos=(" + data.p23X + "," + data.p23Y + ")");
 
-        parameters.add("-c tm_A_p1_pos=(" + data.p21X + "," + data.p21Y + ")");
-        parameters.add("-c tm_A_p2_pos=(" + data.p22X + "," + data.p22Y + ")");
-        parameters.add("-c tm_A_p3_pos=(" + data.p23X + "," + data.p23Y + ")");
+            parameters.add("-c tm_A_p1_pos=(" + data.p11X + "," + data.p11Y + ")");
+            parameters.add("-c tm_A_p2_pos=(" + data.p12X + "," + data.p12Y + ")");
+            parameters.add("-c tm_A_p3_pos=(" + data.p13X + "," + data.p13Y + ")");
+        } else {
+            parameters.add("-c tm_B_p1_pos=(" + data.p11X + "," + data.p11Y + ")");
+            parameters.add("-c tm_B_p2_pos=(" + data.p12X + "," + data.p12Y + ")");
+            parameters.add("-c tm_B_p3_pos=(" + data.p13X + "," + data.p13Y + ")");
+
+            parameters.add("-c tm_A_p1_pos=(" + data.p21X + "," + data.p21Y + ")");
+            parameters.add("-c tm_A_p2_pos=(" + data.p22X + "," + data.p22Y + ")");
+            parameters.add("-c tm_A_p3_pos=(" + data.p23X + "," + data.p23Y + ")");
+        }
+//        
+//        parameters.add("-c tm_B_p1_pos=(" + data.p11X + "," + data.p11Y + ")");
+//        parameters.add("-c tm_B_p2_pos=(" + data.p12X + "," + data.p12Y + ")");
+//        parameters.add("-c tm_B_p3_pos=(" + data.p13X + "," + data.p13Y + ")");
+//
+//        parameters.add("-c tm_A_p1_pos=(" + data.p21X + "," + data.p21Y + ")");
+//        parameters.add("-c tm_A_p2_pos=(" + data.p22X + "," + data.p22Y + ")");
+//        parameters.add("-c tm_A_p3_pos=(" + data.p23X + "," + data.p23Y + ")");
 
         if (leftCourt) {
             parameters.add("-c tm_A_side=right");
@@ -368,6 +449,48 @@ public class ASPExecutor {
         parameters.add("-c p_BH=" + playerWithBall);
 
         return parameters.toArray(new String[parameters.size()]);
+    }
+
+    private String executeCommandRemotly(String command) {
+        try {
+            String url = "http://localhost:4573/run";
+            URL obj = new URL(url);
+            HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+
+            //add reuqest header
+            con.setRequestMethod("POST");
+            con.setRequestProperty("User-Agent", "Mozilla/5.0");
+            con.setRequestProperty("Accept-Language", "en-US,en;q=0.5");
+
+            String urlParameters = "{\"command\": \"" + command + "\"}";
+
+            // Send post request
+            con.setDoOutput(true);
+            DataOutputStream wr = new DataOutputStream(con.getOutputStream());
+            wr.writeBytes(urlParameters);
+            wr.flush();
+            wr.close();
+
+            int responseCode = con.getResponseCode();
+            // System.out.println("\nSending 'POST' request to URL : " + url);
+            // System.out.println("Post parameters : " + urlParameters);
+            // System.out.println("Response Code : " + responseCode);
+
+            BufferedReader in = new BufferedReader(
+                    new InputStreamReader(con.getInputStream()));
+
+            StringBuffer response = new StringBuffer();
+
+            String inputLine;
+            while ((inputLine = in.readLine()) != null) {
+                response.append(inputLine);
+            }
+            in.close();
+
+            return response.toString();
+        } catch (IOException e) {
+            return null;
+        }
     }
 
 }

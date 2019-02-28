@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="style.css">
+    <script src="jquery.min.js"></script>
+    <script src="services/userClient.js"></script>
+    <script src="services/userStatus.js"></script>
+    <script src="services/tactics.js"></script>
+    <script src="code.js"></script>
+    <script src="underscore-min.js"></script>
+    <link href='https://fonts.googleapis.com/css?family=Abel' rel='stylesheet'>
+    <title>Shooting Stars - basketball game</title>
+</head>
+
+<body>
+
+    <div class="container-fluid">
+
+        <div class="title_row">
+            <a href="start_page.html" class="home_link" role="button">
+                <input type="image" class="basketball_img" src="Resources/basketball.png" />
+                Shooting Stars
+            </a>
+
+            <a href="index.html" id="log_out_btn" class="home_link" role="button" onclick="logOut()">
+                Log Out
+            </a>
+        </div>
+
+
+        <div class="row" id="menu_row">
+            <div id="documentation_menu_div">
+                <a href="#" id="documentation_menu_text" class="home_link" role="button" onclick="documentationClicked()">
+                    Documentation
+                </a>
+            </div>
+            <div id="vertical_separating_line1"></div>
+            <a href="#" id="tactics_menu_text" class="home_link" role="button" onclick="tacticsClicked()">
+                Tactics
+            </a>
+            <div id="vertical_separating_line2"></div>
+        </div>
+
+
+        <!-- Modals -->
+
+        <div id="deleteTacticModal" class="modal">
+            <!-- Modal content -->
+            <div class="modal-content" id="delete_modal_content_div">
+                <span class="close">&times;</span>
+                <div class="solid" id="delete_modal_div">
+                    <h1 id="delete_text_id">
+                        Are you sure you want to delete this tactic?
+                    </h1>
+                    <div id="confirm_delete_holder_div">
+                        <a href="#" id="confirm_delete_submit" class="rcorners1 btn" role="button" onclick="confirmDeleteTactic()">
+                            <div> Delete </div>
+                        </a>
+                    </div>
+                    <div id="cancel_delete_holder_div">
+                        <a href="#" id="cancel_delete_submit" class="rcorners1 btn" role="button" onclick="cancelDeleteTactic()">
+                            <div> Cancel </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div id="addAttackingTacticModal" class="modal">
+            <!-- Modal content -->
+            <div class="modal-content" id="add_attacking_tactic_modal_content_div">
+                <span class="close">&times;</span>
+                <div class="solid" id="add_attacking_tactic_modal_div">
+                    <h1 id="add_attacking_tactic_text_id">
+                        Upload attacking tactic file
+                    </h1>
+                    <input class="server_port_input" id="attacking_tactic_name_inputID" type="text" name="tactic_name"
+                        placeholder="tactic name"><br>
+                    <br>
+                    <input class="server_port_input" id="attacking_choose_file_inputID" type="file" name="choose_file"
+                        value="choose .lp file..."><br>
+                    <br>
+                    <div id="validate_tactic_holder_div">
+                        <a href="#" id="validate_tactic_submit" class="rcorners1 btn" role="button" onclick="validateTactic()">
+                            <div> Validate </div>
+                        </a>
+                    </div>
+                    <div id="upload_tactic_holder_div">
+                        <a href="#" id="upload_tactic_submit" class="rcorners1 btn" role="button" onclick="uploadAttackingTactic()">
+                            <div> Upload </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div id="addDefendingTacticModal" class="modal">
+            <!-- Modal content -->
+            <div class="modal-content" id="add_defending_tactic_modal_content_div">
+                <span class="close">&times;</span>
+                <div class="solid" id="add_defending_tactic_modal_div">
+                    <h1 id="add_defending_tactic_text_id">
+                        Upload defending tactic file
+                    </h1>
+                    <input class="server_port_input" id="defending_tactic_name_inputID" type="text" name="tactic_name"
+                        placeholder="tactic name"><br>
+                    <br>
+                    <input class="server_port_input" id="defending_choose_file_inputID" type="file" name="choose_file"
+                        value="choose .lp file..."><br>
+                    <br>
+                    <div id="validate_tactic_holder_div">
+                        <a href="#" id="validate_tactic_submit" class="rcorners1 btn" role="button" onclick="validateTactic()">
+                            <div> Validate </div>
+                        </a>
+                    </div>
+                    <div id="upload_tactic_holder_div">
+                        <a href="#" id="upload_tactic_submit" class="rcorners1 btn" role="button" onclick="uploadDefendingTactic()">
+                            <div> Upload </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div id="replaceTacticModal" class="modal">
+            <!-- Modal content -->
+            <div class="modal-content" id="replace_tactic_modal_content_div">
+                <span class="close">&times;</span>
+                <div class="solid" id="replace_tactic_modal_div">
+                    <h1 id="replace_tactic_text_id">
+                        Replace tactic file
+                    </h1>
+                    <input class="server_port_input" id="replace_tactic_name_inputID" type="text" name="tactic_name"
+                        placeholder="tactic name"><br>
+                    <br>
+                    <input class="server_port_input" id="choose_file_inputID" type="file" name="choose_file" value="choose .lp file..."><br>
+                    <br>
+                    <div id="validate_tactic_holder_div">
+                        <a href="#" id="validate_tactic_submit" class="rcorners1 btn" role="button" onclick="validateTactic()">
+                            <div> Validate </div>
+                        </a>
+                    </div>
+                    <div id="upload_tactic_holder_div">
+                        <a href="#" id="upload_tactic_submit" class="rcorners1 btn" role="button" onclick="replaceTacticSubmit()">
+                            <div> Upload </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div id="playModal" class="modal">
+            <!-- Modal content -->
+            <div class="modal-content" id="play_modal_content_div">
+                <span class="close">&times;</span>
+                <div class="solid" id="play_modal_div">
+                    <h1 id="play_text_id">
+                    </h1>
+                    <div id="invite_holder_div">
+                        <a href="#" id="invite_submit" class="rcorners1 btn" role="button" onclick="inviteUser()">
+                            <div> Invite </div>
+                        </a>
+                    </div>
+                    <!-- <div id="play_holder_div">
+                            <a href="#" id="play_submit" class="rcorners1 btn" role="button" onclick="playClicked()">
+                                <div> Play </div>
+                            </a>
+                        </div> -->
+                    <div id="accept_holder_div">
+                        <a href="#" id="accept_submit" class="rcorners1 btn" role="button" onclick="acceptInvitation()">
+                            <div> Accept </div>
+                        </a>
+                    </div>
+                    <div id="decline_holder_div">
+                        <a href="#" id="decline_submit" class="rcorners1 btn" role="button" onclick="rejectInvitation()">
+                            <div> Decline </div>
+                        </a>
+                    </div>
+                    <div id="cancel_before_holder_div">
+                        <a href="#" id="cancel_before_submit" class="rcorners1 btn" role="button" onclick="cancelInvitationBeforeSent()">
+                            <div> Cancel </div>
+                        </a>
+                    </div>
+                    <div id="cancel_after_holder_div">
+                        <a href="#" id="cancel_after_submit" class="rcorners1 btn" role="button" onclick="cancelInvitationAfterSent()">
+                            <div> Cancel </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+        <!-- ___________________________________________________________________________________________________________________-->
+
+
+        <div class="row" id="main_conent">
+            <div id="main_display_div">
+
+                <div id="documentation_container" style="font-size:14px;color: black; padding-left:3px; padding-bottom: 15px;">
+                    <h2>EduBAI</h2>
+                    EduBAI is an educational game platform that enables users to model the intelligence of their team using formal languages, namely the Event Calculus and ASP, in the context of a dynamic, non-deterministic domain.
+                    <br>This platforms allows you to learn from the provided tactics, create your own Tactics and testing them by compiting with other online users in a basketball game. 
+
+                    <h3>Structure of the basketball game</h3>
+
+                    Each of the six players can move within the premises of the EduBAI basketball court, represented as a 5x7 grid. The players can perform only a limited set of actions, namely: 
+                    <br>
+                    <b>shoot, move(up, down right, left), pass, doNothing</b>
+
+                    <h3>Creating a new Tactic</h3>
+
+                    You can either use the already created tactics or create new ones<br>
+                    A tactic can be an attacking or defensive<br>
+                    In order to get familiar with how you can create a tactic you can view the already created and provided ones using the tactics tab.<br>
+                    After getting familiar with how a tactic is formed you can start experimented with you own.<br><br>
+
+                    The <b>parameters</b> passed to the logic program when running are the following:<br><br>
+
+                    <b>tmpt</b> - the current timeport on the game round (1-10)<br>
+                    <b>myp1, myp2, myp3</b>  - your team’s players names<br>
+                    <b>opp1, opp2, opp3</b>  - the opponent's team players names<br>
+
+                    <b>tm_A_side</b> - the court side of your team  (the value can be either left or right)<br>
+                    <b>tm_B_side</b> - the court side of the opponent (the value can be either left or right)<br>
+
+                    <b>p_BH</b> and <b>playerWithBall</b> - the name of the player holding the ball (you can use either one of the two parameters)<br><br>
+
+                    Player positions are provided as parameters using two different methods. You can use whichever fits your implementation:<br><br>
+
+                    Each player’s position in one parameter<br>
+
+                    <b>tm_A_p1_pos, tm_A_p2_pos, tm_A_p3_pos</b>   - your team’s players position given as  “(X,Y)”<br>
+
+                    <b>tm_B_p1_pos, tm_B_p2_pos, tm_B_p3_pos</b>   - opponent’s team players position given as  “(X,Y)”<br><br>
+
+                    The X and Y of each player as a discrete parameter<br>
+
+                    <b>p1x, p1y, p2x, p2y, p3x, p3y</b> - your team’s players position given as numbers<br>
+
+                    <b>op1x, op1y, op2x, op2y, op3x, op3y</b> - the opponent’s team players position given as numbers<br>
+
+                   
+                </div>
+
+                <div id="view_selected_tactic_div">
+                    <div  style="text-align:center;">
+                        <h1 id="selected_tactic_div_text_id">
+                            Predefined Tactics
+                        </h1>
+                    </div>
+
+                    <div id="source_code_box">
+                        <span class="close">&times;</span>
+                        <div id="source_code_text"> </div>
+                        <div id="extras_div">
+                            <!-- <a href="#"  role="button" onclick="replaceTactic()">
+                                <input type="image" id="replace_tactic_img" src="Resources/add_tactic.png" />
+                            </a> -->
+                            <a href="#" role="button" onclick="deleteTactic()">
+                                <input type="image" id="delete_tactic_img" src="Resources/delete.png" />
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div id="tactics_container">
+                    <div class="centerT">
+                        <h1 id="predefined_tactics_text_id">
+                            Predefined Tactics
+                        </h1>
+                    </div>
+                    <div class="centerT">
+                        <h1 id="my_tactics_text_id">
+                            My Tactics
+                        </h1>
+                    </div>
+
+                    <div id="predefined_tactics_div">
+                        <div id="predefined_attacking_div">
+                            <div class="marginBottom45">
+                                <img id="attacking_sword_img" src="Resources/sword.png" />
+                                <p id="attacking_text"> Attacking</p>
+                            </div>
+                            <div class="tactics">
+                                <p role="button" class="tactics_text" onclick="viewSelectedTactic('predefined',this,'attacking')">
+                                    Ball holder goes under the basket and shoots </p>
+                            </div>
+                            <div class="tactics">
+                                <p role="button" class="tactics_text" onclick="viewSelectedTactic('predefined',this,'attacking')">
+                                    Choose what to do based on probabilities </p>
+                            </div>
+                            <div class="tactics">
+                                <p role="button" class="tactics_text" onclick="viewSelectedTactic('predefined',this,'attacking')">
+                                    All players go to baseline </p>
+                            </div>
+                            <div class="tactics">
+                                <p role="button" class="tactics_text" onclick="viewSelectedTactic('predefined',this,'attacking')">
+                                    Each player goes to the baseline closest to them </p>
+                            </div>
+                        </div>
+                        <div id="predefined_defending_div">
+                            <div class="marginBottom45">
+                                <img id="defending_shield_img" src="Resources/shield.png" />
+                                <p id="defending_text"> Defending</p>
+                            </div>
+                            <div class="tactics">
+                                <p role="button" class="tactics_text" onclick="viewSelectedTactic('predefined',this,'defending')">
+                                    One player under the basket and the others on the ball holder </p>
+                            </div>
+                            <div class="tactics">
+                                <p role="button" class="tactics_text" onclick="viewSelectedTactic('predefined',this,'defending')">
+                                    Each player on one opponent </p>
+                            </div>
+                            <div class="tactics">
+                                <p role="button" class="tactics_text" onclick="viewSelectedTactic('predefined',this,'defending')">
+                                    Players stay around the basket (two point shoots) </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="my_tactics_div">
+                        <div id="my_tactics_attacking_div">
+                            <div class="marginBottom45">
+                                <img id="attacking_sword_img" src="Resources/sword.png" />
+                                <p id="attacking_text"> Attacking</p>
+                                <a href="#" id="add_tactic_img" role="button" onclick="addNewAttackingTactic()">
+                                    <input type="image" class="basketball_img" src="Resources/add_tactic.png" />
+                                </a>
+                            </div>
+                        </div>
+                        <div id="my_tactics_defending_div">
+                            <div class="marginBottom45">
+                                <img id="defending_shield_img" src="Resources/shield.png" />
+                                <p id="defending_text"> Defending</p>
+                                <a href="#" id="add_tactic_img" role="button" onclick="addNewDefendingTactic()">
+                                    <input type="image" class="basketball_img" src="Resources/add_tactic.png" />
+                                </a>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="col-sm-3" id="online_users_div">
+                <h1 id="online_users_text_id">
+                    Online Users
+                </h1>
+                <div id="online_users_container_div">
+                    <!-- <div class="user_div" role="button" onclick="userClicked(this)">
+                        <img class="user_img_class" src="Resources/user_icon.png" />
+                        <p class="username_class"> blablabla </p>
+                    </div>
+                    <div class="user_div" role="button" onclick="userClicked(this)">
+                        <img class="user_img_class" src="Resources/user_icon.png" />
+                        <p class="username_class"> aaaaaaaaaaaa </p>
+                    </div>
+                    <div class="user_div" role="button" onclick="userClicked(this)">
+                        <img class="user_img_class" src="Resources/user_icon.png" />
+                        <p class="username_class"> eeeeeeeeee </p>
+                    </div>
+                    <div class="user_div" role="button" onclick="userClicked(this)">
+                        <img class="user_img_class" src="Resources/user_icon.png" />
+                        <p class="username_class"> uuu </p>
+                    </div> -->
+
+                </div>
+
+            </div>
+        </div>
+
+
+        <footer id="footer_main_pages">
+            <p class="white_font" style="color: white;">This project was developed in the context of the course CS-567
+                “Knowledge Representation and Reasoning”, of the Computer Science Department, at the University of
+                Crete, Greece
+            <br>© 2019, Institute of Computer Science (ICS) of the Foundation for Research and Technology - Hellas (FORTH)</p>
+        </footer>
+
+
+</body>
+
+</html>

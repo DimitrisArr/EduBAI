@@ -39,7 +39,7 @@ class InvitationSystem {
         this.onInvite.splice(pIndex, 1);
         statusSocket.sendAccept(from, to);
 
-        playerStatus.setPair(from, top);
+        playerStatus.setPair(from, to);
 
         return true;
 

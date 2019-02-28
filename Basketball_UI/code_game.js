@@ -12,15 +12,17 @@ var PlayersNames = {
 };
 
 var TeamNames = {
-    team1Name: "TeamA",
-    team2Name: "TeamB"
+    team1Name: localStorage.getItem('username'),
+    team2Name: localStorage.getItem('opponent')
 }
 
-var server = new WebSocket("ws://localhost:8080/project-server/client");
+var server = new WebSocket("ws://localhost:8080/project-server/client?" + localStorage.getItem('username'));
 
-var attacking = true;
+playerPositioning.connect(localStorage.getItem('username'));
 
-var areWeOntheLeft = true;
+var attacking = localStorage.getItem('attacker') == 'true';
+
+var areWeOntheLeft = localStorage.getItem('leftCourt') == 'true';
 
 var scoreTEAM1 = -1;
 var scoreTEAM2 = -1;
@@ -30,6 +32,7 @@ var round = -1;
 var whoHasBall = "no one";
 
 var currentTactic = "";
+var isTacticCustom = false;
 
 
 var textForDisplay = {
@@ -123,7 +126,6 @@ function resizePlayersAndBall(cell) {
 
     if (numOfChildren == 1 || numOfChildren == 2) {
         Array.from(cell.children).forEach(child => {
-            //child.style.display = "inline-block";
             Array.from(child.children).forEach(childIMG => {
                 if (childIMG.id.includes("player")) { // = not the ball, but the player img
                     childIMG.style.height = "80px";
@@ -143,7 +145,6 @@ function resizePlayersAndBall(cell) {
 
     if (numOfChildren == 3) {
         Array.from(cell.children).forEach(child => {
-            //child.style.display = "inline-block";
             Array.from(child.children).forEach(childIMG => {
                 if (childIMG.id.includes("player")) { // = not the ball, but the player img
                     childIMG.style.height = "55px";
@@ -163,7 +164,6 @@ function resizePlayersAndBall(cell) {
 
     if (numOfChildren == 4) {
         Array.from(cell.children).forEach(child => {
-            //child.style.display = "inline-block";
             Array.from(child.children).forEach(childIMG => {
                 if (childIMG.id.includes("player")) { // = not the ball, but the player img
                     childIMG.style.height = "41px";
@@ -183,7 +183,6 @@ function resizePlayersAndBall(cell) {
 
     if (numOfChildren == 5 || numOfChildren == 6) {
         Array.from(cell.children).forEach(child => {
-            //child.style.display = "inline-block";
             Array.from(child.children).forEach(childIMG => {
                 if (childIMG.id.includes("player")) { // = not the ball, but the player img
                     childIMG.style.height = "34px";
@@ -210,15 +209,15 @@ function drop(ev) {
     var idOfTarget = ev.target.id;
     console.log("target: ", ev.target.id);
 
-    if (!whoIsBeingDragged){
+    if (!whoIsBeingDragged) {
         return;
     }
 
-    if (!data){
+    if (!data) {
         return;
     }
 
-    if (!ev.target){
+    if (!ev.target) {
         return;
     }
 
@@ -248,17 +247,19 @@ function drop(ev) {
             whoHasBall = idOfTarget.replace("_div", ""); // player1_team1
             console.log("who has ball? --> " + idOfTarget);
 
-            if (whoHasBall.includes("team1")) {
-                attacking = true;
-            } else {
-                attacking = false;
-            }
+            // if (whoHasBall.includes("team1")) {
+            //     attacking = true;
+            // } else {
+            //     attacking = false;
+            // }
 
             if (attacking) {
                 start_game_btn = document.getElementById('go_btn_attack_tactic_selected');
             } else {
                 start_game_btn = document.getElementById('go_btn_defend_tactic_selected');
             }
+
+            updatePlayerPositions2sendThem();
         }
     }
 
@@ -280,7 +281,7 @@ function drop(ev) {
 
         } else { //all okay, i'm trying to attach a player to a cell
 
-            if (!document.getElementById(data)){
+            if (!document.getElementById(data)) {
                 return;
             }
 
@@ -288,6 +289,8 @@ function drop(ev) {
             console.log(idOfTarget + " : " + document.getElementById(data).id);
             document.getElementById(idOfTarget).appendChild(document.getElementById(data));
             console.log("33333333333333333333333333333333333");
+
+            updatePlayerPositions2sendThem();
 
         }
     }
@@ -301,6 +304,92 @@ function drop(ev) {
 }
 
 /*********************************************************************************************** */
+
+function updateOpponentCourtPositionAndBall(position, ballHolder) {
+
+    if (areWeOntheLeft) {
+
+        let pid = null;
+        let x = 0;
+        let y = 0;
+
+        if (playerPositions.p21X == 0 && position.p21X != 0)
+            pid = '#player1_team2_div';
+        if (playerPositions.p22X == 0 && position.p22X != 0)
+            pid = '#player2_team2_div';
+        if (playerPositions.p23X == 0 && position.p23X != 0)
+            pid = '#player3_team2_div';
+
+
+        if (pid) {
+            if (x != 5 || y != 7)
+                $(pid).appendTo($("#cell_57"));
+            else
+                $(pid).appendTo($("#cell_56"));
+        }
+
+
+        playerPositions.p21X = position.p21X;
+        playerPositions.p21Y = position.p21Y;
+
+        playerPositions.p22X = position.p22X;
+        playerPositions.p22Y = position.p22Y;
+
+        playerPositions.p23X = position.p23X;
+        playerPositions.p23Y = position.p23Y;
+
+    } else {
+
+        let pid = null;
+        let x = 0;
+        let y = 0;
+
+        if (playerPositions.p11X == 0 && position.p11X != 0)
+            pid = '#player1_team1_div';
+        if (playerPositions.p12X == 0 && position.p12X != 0)
+            pid = '#player2_team1_div';
+        if (playerPositions.p13X == 0 && position.p13X != 0)
+            pid = '#player3_team1_div';
+
+
+        if (pid) {
+            if (x != 1 || y != 1)
+                $(pid).appendTo($("#cell_11"));
+            else
+                $(pid).appendTo($("#cell_11"));
+        }
+
+
+        playerPositions.p11X = position.p11X;
+        playerPositions.p11Y = position.p11Y;
+
+        playerPositions.p12X = position.p12X;
+        playerPositions.p12Y = position.p12Y;
+
+        playerPositions.p13X = position.p13X;
+        playerPositions.p13Y = position.p13Y;
+    }
+
+    if (!attacking && whoHasBall == "no one" && ballHolder != 'no one') {
+        $('#' + ballHolder).parent().append($('#ball_img_id'));
+
+        $('#ball_img_id').css("width", "35px");
+        $('#ball_img_id').css('marginLeft', "-45px");
+        $('#ball_img_id').css('marginBottom', "-46px");
+        whoHasBall = ballHolder;
+    }
+
+    if (!attacking && whoHasBall != ballHolder) {
+        whoHasBall = ballHolder;
+    }
+
+    console.log("hello", playerPositions);
+    updatePlayerAndBallPositionsOnCourt();
+
+}
+
+/*********************************************************************************************** */
+
 function updatePlayerPositions2sendThem() {
     var court = document.getElementById("court_grid");
     Array.from(court.children).forEach(cell => {
@@ -355,13 +444,15 @@ function updatePlayerPositions2sendThem() {
         }
     });
 
-    console.log(playerPositions);
+    console.log(playerPositions, whoHasBall, "asdas");
+    //if a flag
+    playerPositioning.sendData(playerPositions, whoHasBall);
 }
 
 
 /*********************************************************************************************** */
 function getKeyByValue(object, value) {
-    return (_.invert(object))[value];
+    return (_.invert(object))[value.replace(/\s\s+/g, ' ').trim()];
 }
 
 
@@ -372,6 +463,7 @@ function onStart() {
     var theball = document.getElementById("ball_img_id");
 
     whoHasBall = theball.parentNode.id.replace("_div", "");
+    console.log(whoHasBall);
 
     var playerWithBall = whoHasBall.replace("player", "").replace("_team", "")[0]; // 1
 
@@ -380,9 +472,15 @@ function onStart() {
     var tactic_tmp = "";
 
     if (attacking) {
-        tactic_tmp = getKeyByValue(predefAttackTacticsDict, currentTactic);
+        if (isTacticCustom)
+            tactic_tmp = getKeyByValue(myAttackTacticsDict, currentTactic);
+        else
+            tactic_tmp = getKeyByValue(predefAttackTacticsDict, currentTactic);
     } else {
-        tactic_tmp = getKeyByValue(predefDefendTacticsDict, currentTactic);
+        if (isTacticCustom)
+            tactic_tmp = getKeyByValue(myDefendTacticsDict, currentTactic);
+        else
+            tactic_tmp = tactic_tmp = getKeyByValue(predefDefendTacticsDict, currentTactic);
     }
 
     console.log("AAAAAAAAAAAAAAAAAAAA currentTactic: " + currentTactic);
@@ -436,9 +534,15 @@ function onNewRound() {
     var tactic_tmp = "";
 
     if (attacking) {
-        tactic_tmp = getKeyByValue(predefAttackTacticsDict, currentTactic);
+        if (isTacticCustom)
+            tactic_tmp = getKeyByValue(myAttackTacticsDict, currentTactic);
+        else
+            tactic_tmp = getKeyByValue(predefAttackTacticsDict, currentTactic);
     } else {
-        tactic_tmp = getKeyByValue(predefDefendTacticsDict, currentTactic);
+        if (isTacticCustom)
+            tactic_tmp = getKeyByValue(myDefendTacticsDict, currentTactic);
+        else
+            tactic_tmp = tactic_tmp = getKeyByValue(predefDefendTacticsDict, currentTactic);
     }
 
     var data = {
@@ -476,6 +580,7 @@ function onNewRound() {
 
 
 /****************************************************************************************** */
+
 function updatePlayerAndBallPositionsOnCourt() {
 
     var court = document.getElementById("court_grid");
@@ -499,6 +604,7 @@ function updatePlayerAndBallPositionsOnCourt() {
                     playerName += "3";
                 }
 
+                console.log(playerName, "sfsd");
                 var newPosition = playerPositions[playerName + "X"] + playerPositions[playerName + "Y"];
                 var newCellPos = "cell_" + newPosition;
 
@@ -522,15 +628,15 @@ function updatePlayerAndBallPositionsOnCourt() {
             var ball_img = document.getElementById("ball_img_id");
             //first: remove the ball as a child from the old ball holder
             var oldBallHolderDIV = document.getElementById("ball_img_id").parentNode;
-            if (oldBallHolderDIV){
+            if (oldBallHolderDIV) {
                 oldBallHolderDIV.removeChild(ball_img);
             }
             //then: add it as a child of the new ball holder
             newPlayerDivWithBall.appendChild(ball_img); //SHOULD CHECK IF THIS WORKS
         }
     }
-    
-    
+
+
     //ADDED NOW 
     var court = document.getElementById("court_grid");
     Array.from(court.children).forEach(child => {
@@ -563,38 +669,80 @@ function getServerPlayersPos(data) {
     data.forEach(dplayer => {
         if (dplayer.includes(PlayersNames.myplayer1 + ",")) {
             var pos = dplayer.split(',');
-            modData.p11X = pos[1];
-            modData.p11Y = pos[2];
+
+            //TODO: if left court team 1 else team2  (on all the following ifs)
+
+            if (areWeOntheLeft) {
+                modData.p11X = pos[1];
+                modData.p11Y = pos[2];
+            } else {
+                modData.p21X = pos[1];
+                modData.p21Y = pos[2];
+            }
+
+
         }
 
         if (dplayer.includes(PlayersNames.myplayer2 + ",")) {
             var pos = dplayer.split(',');
-            modData.p12X = pos[1];
-            modData.p12Y = pos[2];
+
+            if (areWeOntheLeft) {
+                modData.p12X = pos[1];
+                modData.p12Y = pos[2];
+            } else {
+                modData.p22X = pos[1];
+                modData.p22Y = pos[2];
+            }
         }
 
         if (dplayer.includes(PlayersNames.myplayer3 + ",")) {
             var pos = dplayer.split(',');
-            modData.p13X = pos[1];
-            modData.p13Y = pos[2];
+
+            if (areWeOntheLeft) {
+                modData.p13X = pos[1];
+                modData.p13Y = pos[2];
+            } else {
+                modData.p23X = pos[1];
+                modData.p23Y = pos[2];
+            }
         }
 
         if (dplayer.includes(PlayersNames.oppplayer1 + ",")) {
             var pos = dplayer.split(',');
-            modData.p21X = pos[1];
-            modData.p21Y = pos[2];
+
+            if (areWeOntheLeft) {
+                modData.p21X = pos[1];
+                modData.p21Y = pos[2];
+            } else {
+                modData.p11X = pos[1];
+                modData.p11Y = pos[2];
+            }
         }
 
         if (dplayer.includes(PlayersNames.oppplayer2 + ",")) {
             var pos = dplayer.split(',');
-            modData.p22X = pos[1];
-            modData.p22Y = pos[2];
+
+            if (areWeOntheLeft) {
+                modData.p22X = pos[1];
+                modData.p22Y = pos[2];
+            }
+            else {
+                modData.p12X = pos[1];
+                modData.p12Y = pos[2];
+            }
         }
 
         if (dplayer.includes(PlayersNames.oppplayer3 + ",")) {
             var pos = dplayer.split(',');
-            modData.p23X = pos[1];
-            modData.p23Y = pos[2];
+
+            if (areWeOntheLeft) {
+                modData.p23X = pos[1];
+                modData.p23Y = pos[2];
+            } else {
+                modData.p13X = pos[1];
+                modData.p13Y = pos[2];
+            }
+
         }
     });
 
@@ -635,6 +783,21 @@ server.onmessage = (evt) => {
 
 
     var data = evt.data.split("||");
+
+    if (data[0] == "PLAYER_NAMES") {
+
+        PlayersNames.myplayer1 = data[1];
+        PlayersNames.myplayer2 = data[2];
+        PlayersNames.myplayer3 = data[3];
+
+        PlayersNames.oppplayer1 = data[4];
+        PlayersNames.oppplayer2 = data[5];
+        PlayersNames.oppplayer3 = data[6];
+
+        playerPositioning.close();
+
+        return;
+    }
 
     if (data[0] == "Attacking_BeforeDoing") {
         modData.type = "Attacking_BeforeDoing";
@@ -817,17 +980,17 @@ server.onmessage = (evt) => {
             whoWillAttack: data[1],
             team1Score: data[2],
             team2Score: data[3],
-            teamScored : data[4]=="1"
+            teamScored: data[4] == "1"
         };
-    }else if(data[0] == "END_GAME"){
+    } else if (data[0] == "END_GAME") {
         modData = {
             type: "END_GAME",
-            whoWon : data[1]
+            whoWon: data[1]
         };
     }
 
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 
@@ -1178,15 +1341,7 @@ server.onmessage = (evt) => {
     } else if (modData.type == "Round_Changed") {
         //regardless if attacking or defending: ROUND CHANGED
         //2 ways to end up here: 1) after ball goes out of play 2) after succesful shoot of a team
-        /****
-         * modData = {
-            type: "Round_Changed",
-            whoWillAttack: data[1],
-            team1Score: data[2],
-            team2Score: data[3],
-            teamScored : data[4]=="1"
-        };
-         */
+
 
         scoreTEAM1 = modData.team1Score;
         scoreTEAM2 = modData.team2Score;
@@ -1201,38 +1356,38 @@ server.onmessage = (evt) => {
         localStorage.setItem("round", round);
 
         var whoWillAttackNow = modData.whoWillAttack;
-        var IwillAttack = false;
+        var IwillAttack = whoWillAttackNow == TeamNames.team1Name;
 
-        if (whoWillAttackNow == TeamNames.team1Name){
-            IwillAttack = true;
-        }
+
+        attacking = whoWillAttackNow == TeamNames.team1Name;
 
         var whohasball2show = whoHasBall.replace("player", "").replace("_team", "")[0];
 
-        if (modData.teamScored){ //i am here because of a succesful shoot
-            if (attacking){
-                if (IwillAttack){
+        if (modData.teamScored) { //i am here because of a succesful shoot
+            if (attacking) {
+                if (IwillAttack) {
                     alert("Player " + whohasball2show + " shoots succesfully! HURRAY! Press OK to start new round (You have the ball in the new round).");
                 } else {
                     alert("Player " + whohasball2show + " shoots succesfully! HURRAY! Press OK to start new round (The other team has the ball in the new round).");
                 }
             } else {
-                if (IwillAttack){
+                if (IwillAttack) {
                     alert("Player " + whohasball2show + " of Team 2 shoots succesfully! :( Press OK to start new round (You have the ball in the new round).");
                 } else {
-                    alert("Player " + whohasball2show + " of Team 2 shoots succesfully! :( Press OK to start new round (The other team has the ball in the new round).");                    
+                    alert("Player " + whohasball2show + " of Team 2 shoots succesfully! :( Press OK to start new round (The other team has the ball in the new round).");
                 }
             }
 
         } else { //i am here because the ball is out of play
-            if (IwillAttack){
+            if (IwillAttack) {
                 alert("Ball out of play! Press OK to start new round (You have the ball in the new round).");
-            }else {
+            } else {
                 alert("Ball out of play! Press OK to start new round (The other team has the ball in the new round).");
             }
         }
 
-       window.location = "court.html" //and start again - setting the positions of the players and the ball
+        newRound();
+        // window.location = "court.html" //and start again - setting the positions of the players and the ball
 
     } else if (modData.type == "END_GAME") {
         /*
@@ -1242,7 +1397,7 @@ server.onmessage = (evt) => {
         };
         */
 
-        if (modData.whoWon == TeamNames.team1Name){
+        if (modData.whoWon == TeamNames.team1Name) {
             alert("THE GAME HAS ENDED! You won! HURRAY! :D The score is " + localStorage.getItem('scoreTEAM1') + "-" + localStorage.getItem('scoreTEAM1') + ". Press OK to restart game.");
         } else {
             alert("THE GAME HAS ENDED! The other team won! :( Better luck next time... The score is " + localStorage.getItem('scoreTEAM1') + "-" + localStorage.getItem('scoreTEAM1') + ". Press OK to restart game.");
@@ -1254,7 +1409,7 @@ server.onmessage = (evt) => {
         localStorage.removeItem("attacking");
 
         window.location = "index.html";
-        
+
     }
 
 }
@@ -1285,7 +1440,7 @@ function onStartGameAfterSelectTactic() {
 
         document.getElementById("team1_title").style.display = "none";
         document.getElementById("team2_title").style.display = "none";
-        document.getElementById('go_btn_players_placed').style.display = "none";  
+        document.getElementById('go_btn_players_placed').style.display = "none";
 
         info_opponent_moves_div.style.display = "none";
         info_attacking_or_defending_div.innerHTML = '<img class="info_down_imgs" src="Resources/sword.png"/> <p class="p_info"> You are attacking </p>'
@@ -1311,11 +1466,13 @@ function tacticChosen(tactic) {
     console.log("TACTIC CHOSEN: " + tacticSelected);
 
     var type = "";
-    if (tactic.parentNode.parentNode.id.includes('predefined')){
+    if ($(tactic).hasClass('predef')) {
         type = 'predefined';
     } else {
         type = 'my';
     }
+
+    console.log("tactic type: " + type);
 
     //check if sth else was green before to make it yellow again
     var myTacticsDiv;
@@ -1351,18 +1508,19 @@ function tacticChosen(tactic) {
 
     tactic.style.borderColor = "green";
     currentTactic = tacticSelected;
+    isTacticCustom = type == 'my';
 }
 
 
-function onOKclick(){
-    var placementAlertModal =  document.getElementById('placementAlertModal');
+function onOKclick() {
+    var placementAlertModal = document.getElementById('placementAlertModal');
     placementAlertModal.style.display = 'none';
 }
 
-function populateTacticsModal(attacking){
+function populateTacticsModal(attacking) {
     var divToPopulate;
     var tacticsDictionary;
-    if (attacking){
+    if (attacking) {
         divToPopulate = document.getElementById('div_with_my_attack_tactics_btns');
         tacticsDictionary = myAttackTacticsDict;
     } else {
@@ -1376,42 +1534,42 @@ function populateTacticsModal(attacking){
 
         divToPopulate.appendChild(newTacticDiv);
 
-        newTacticDiv.innerHTML = '<p class="solid tactics_text" role="button"  onclick="tacticChosen(this)">'+ tacticsDictionary[key] + '</p>';
+        newTacticDiv.innerHTML = '<p class="solid tactics_text" role="button"  onclick="tacticChosen(this)">' + tacticsDictionary[key] + '</p>';
     }
 
 }
 
 
 
-function displayTacticsDiv(){
+function displayTacticsDiv() {
     var attackModal = document.getElementById('attackModal');
     var defendModal = document.getElementById('defendModal');
 
     var court = document.getElementById("court_grid");
-    
+
 
     var players_div2check;
-    if (areWeOntheLeft){
+    if (areWeOntheLeft) {
         players_div2check = 'players_team1_div';
 
         var myPlayer1_posY = document.getElementById('player1_team1_div').parentNode.id.replace("cell_", "")[1];
         var myPlayer2_posY = document.getElementById('player2_team1_div').parentNode.id.replace("cell_", "")[1];
         var myPlayer3_posY = document.getElementById('player3_team1_div').parentNode.id.replace("cell_", "")[1];
 
-        if (myPlayer1_posY > 4 || myPlayer2_posY > 4 || myPlayer3_posY > 4 ){
+        if (myPlayer1_posY > 4 || myPlayer2_posY > 4 || myPlayer3_posY > 4) {
             document.getElementById('placementAlertModal').style.display = 'block';
             document.getElementById('alert_placement_text_id').innerText = "You must place all your players on the LEFT side of the court!";
             return;
         }
-        
-    }else {
+
+    } else {
         players_div2check = 'players_team2_div';
 
         var myPlayer1_posY = document.getElementById('player1_team2_div').parentNode.id.replace("cell_", "")[1];
         var myPlayer2_posY = document.getElementById('player2_team2_div').parentNode.id.replace("cell_", "")[1];
         var myPlayer3_posY = document.getElementById('player3_team2_div').parentNode.id.replace("cell_", "")[1];
 
-        if (myPlayer1_posY > 4 || myPlayer2_posY > 4 || myPlayer3_posY > 4 ){
+        if (myPlayer1_posY < 5 || myPlayer2_posY < 5 || myPlayer3_posY < 5) {
             document.getElementById('placementAlertModal').style.display = 'block';
             document.getElementById('alert_placement_text_id').innerText = "You must place all your players on the RIGHT side of the court!";
             return;
@@ -1419,7 +1577,7 @@ function displayTacticsDiv(){
     }
 
     if (attacking) {
-        if ( ($('#' + players_div2check).find('img').length > 0) || ($('#ball_img_id_div').find('img').length > 0)){
+        if (($('#' + players_div2check).find('img').length > 0) || ($('#ball_img_id_div').find('img').length > 0)) {
             document.getElementById('placementAlertModal').style.display = 'block';
             document.getElementById('alert_placement_text_id').innerText = "You must place all players on the court and assign the ball to a player!";
             return;
@@ -1428,7 +1586,7 @@ function displayTacticsDiv(){
         attackModal.style.display = "block";
     } //else we are defending
     else {
-        if ($('#' + players_div2check).find('img').length > 0){
+        if ($('#' + players_div2check).find('img').length > 0) {
             document.getElementById('placementAlertModal').style.display = 'block';
             document.getElementById('alert_placement_text_id').innerText = "You must place all players on the court!";
             return;
@@ -1443,6 +1601,26 @@ function displayTacticsDiv(){
 }
 
 
+function loadTactics() {
+
+    TacticsManager.getTactics(localStorage.getItem('username'))
+        .then((tcs) => {
+
+            tcs.forEach(tc => {
+                if (tc.type == 'attack') {
+                    myAttackTacticsDict[tc.path] = tc.name;
+                } else {
+                    myDefendTacticsDict[tc.path] = tc.name;
+                }
+            });
+
+
+        })
+        .catch((err) => {
+            console.log('couldnt load tactics');
+        });
+
+}
 
 
 /*********************************************************************************************** */
@@ -1452,19 +1630,16 @@ window.onload = function () {
     console.log('areWeOntheLeft? : ' + areWeOntheLeft);
     console.log('attacking? : ' + attacking);
 
-    myAttackTacticsDict = JSON.parse(localStorage.getItem("myAttackTacticsDict"));
-    myDefendTacticsDict =JSON.parse(localStorage.getItem("myDefendTacticsDict"));
-
-    console.log(myAttackTacticsDict);
-    console.log(myDefendTacticsDict);
-
-
+    loadTactics();
 
     /***************************** info for instruction box on top ********************************** */
     var instructions_text = "";
-    
+
+    console.log('me? : ' + localStorage.getItem('username'));
+    console.log('opp? : ' + localStorage.getItem('opponent'));
+
     /********************** set the correct team names and who is draggable and who is not ******************************* */
-    if (areWeOntheLeft){
+    if (areWeOntheLeft) {
         instructions_text = "You are on the left side of the court ";
 
         document.getElementById('team1_title').innerText = localStorage.getItem('username') + " team";
@@ -1494,7 +1669,7 @@ window.onload = function () {
         instructions_text = "You are on the right side of the court ";
 
         document.getElementById('team2_title').innerText = localStorage.getItem('username') + " team";
-        document.getElementById('team1_title').innerText = localStorage.getItem('opponent_username') + " team";
+        document.getElementById('team1_title').innerText = localStorage.getItem('opponent') + " team";
 
         document.getElementById('player1_team1_div').draggable = false;
         document.getElementById('player2_team1_div').draggable = false;
@@ -1518,7 +1693,7 @@ window.onload = function () {
 
     }
 
-    if (attacking){
+    if (attacking) {
         document.getElementById('ball_img_id').draggable = true;
         instructions_text += "and you are attacking! Place your team on the court and give the ball to one of your players. Then press GO";
 
@@ -1584,7 +1759,7 @@ window.onload = function () {
     var attackModal = document.getElementById('attackModal');
     var defendModal = document.getElementById('defendModal');
 
-    var placementAlertModal =  document.getElementById('placementAlertModal');
+    var placementAlertModal = document.getElementById('placementAlertModal');
 
     var span = document.getElementsByClassName("close");
 
@@ -1617,3 +1792,89 @@ window.onload = function () {
     }
 
 };
+
+/* ----------------------------------------- */
+
+function resetUI() {
+    document.getElementById("team1_title").style.display = "block";
+    document.getElementById("team2_title").style.display = "block";
+    document.getElementById('go_btn_players_placed').style.display = "block";
+
+    var info_my_tactic_div = document.getElementById('info_my_tactic_div');
+    var info_attacking_or_defending_div = document.getElementById('info_attacking_or_defending_div');
+    var info_opponent_moves_div = document.getElementById('info_opponent_moves_div');
+
+    info_my_tactic_div.style.display = "none";
+    info_attacking_or_defending_div.style.display = "none";
+    info_opponent_moves_div.style.display = "none";
+}
+
+function resetData() {
+    currentTactic = "";
+    isTacticCustom = false;
+
+    textForDisplay = {
+        player1: "",
+        player2: "",
+        player3: ""
+    };
+
+    opponentInfoText = {
+        player1: "",
+        player2: "",
+        player3: ""
+    };
+
+    playerPositions = {
+        p11X: 0,
+        p11Y: 0,
+
+        p12X: 0,
+        p12Y: 0,
+
+        p13X: 0,
+        p13Y: 0,
+
+        p21X: 0,
+        p21Y: 0,
+
+        p22X: 0,
+        p22Y: 0,
+
+        p23X: 0,
+        p23Y: 0,
+    };
+
+    whoHasBall = "no one";
+}
+
+function resetPlayers() {
+    $('#player1_team1_div').appendTo($("#p11off"));
+    $('#player2_team1_div').appendTo($("#p21off"));
+    $('#player3_team1_div').appendTo($("#p31off"));
+
+    $('#player1_team2_div').appendTo($("#p12off"));
+    $('#player2_team2_div').appendTo($("#p22off"));
+    $('#player3_team2_div').appendTo($("#p32off"));
+
+
+
+    $('#ball_img_id_div').append($('#ball_img_id'));
+
+    $('#ball_img_id').css('width', '57px');
+    $('#ball_img_id').css('height', '57px');
+    $('#ball_img_id').css('margin-left', '0');
+    $('#ball_img_id').css('margin-bottom', '0');
+
+}
+
+function newRound() {
+    resetUI();
+    resetData();
+    resetPlayers();
+
+
+    playerPositioning.connect(localStorage.getItem('username'));
+
+    window.onload();
+}

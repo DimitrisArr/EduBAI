@@ -12,6 +12,7 @@
     <script src="jquery.min.js"></script>
     <script src="services/userClient.js"></script>
     <script src="services/userStatus.js"></script>
+    <script src="services/tactics.js"></script>
     <script src="code.js"></script>
     <script src="underscore-min.js"></script>
     <link href='https://fonts.googleapis.com/css?family=Abel' rel='stylesheet'>
@@ -21,8 +22,8 @@
 <body>
 
     <div class="container-fluid">
-        
-        <div class="title_row">        
+
+        <div class="title_row">
             <a href="start_page.html" class="home_link" role="button">
                 <input type="image" class="basketball_img" src="Resources/basketball.png" />
                 Shooting Stars
@@ -35,18 +36,16 @@
 
 
         <div class="row" id="menu_row">
-            <div class="col-sm-3" id="documentation_menu_div">
+            <div id="documentation_menu_div">
                 <a href="#" id="documentation_menu_text" class="home_link" role="button" onclick="documentationClicked()">
                     Documentation
                 </a>
             </div>
             <div id="vertical_separating_line1"></div>
-            <div class="col-sm-3" id="tactics_menu_div"></div>
-            <a href="#" id="tactics_menu_text" class="home_link" role="button"  onclick="tacticsClicked()">
-                    Tactics
+            <a href="#" id="tactics_menu_text" class="home_link" role="button" onclick="tacticsClicked()">
+                Tactics
             </a>
             <div id="vertical_separating_line2"></div>
-            <div class="col-sm-6" id="rest_space_menu_div"></div>
         </div>
 
 
@@ -59,7 +58,7 @@
                 <div class="solid" id="delete_modal_div">
                     <h1 id="delete_text_id">
                         Are you sure you want to delete this tactic?
-                    </h1>                    
+                    </h1>
                     <div id="confirm_delete_holder_div">
                         <a href="#" id="confirm_delete_submit" class="rcorners1 btn" role="button" onclick="confirmDeleteTactic()">
                             <div> Delete </div>
@@ -82,11 +81,13 @@
                 <div class="solid" id="add_attacking_tactic_modal_div">
                     <h1 id="add_attacking_tactic_text_id">
                         Upload attacking tactic file
-                    </h1>       
-                    <input class="server_port_input" id="attacking_tactic_name_inputID" type="text" name="tactic_name" placeholder="tactic name"><br>
+                    </h1>
+                    <input class="server_port_input" id="attacking_tactic_name_inputID" type="text" name="tactic_name"
+                        placeholder="tactic name"><br>
                     <br>
-                    <input class="server_port_input" id="attacking_choose_file_inputID" type="file" name="choose_file" value="choose .lp file..."><br>
-                    <br>             
+                    <input class="server_port_input" id="attacking_choose_file_inputID" type="file" name="choose_file"
+                        value="choose .lp file..."><br>
+                    <br>
                     <div id="validate_tactic_holder_div">
                         <a href="#" id="validate_tactic_submit" class="rcorners1 btn" role="button" onclick="validateTactic()">
                             <div> Validate </div>
@@ -109,11 +110,13 @@
                 <div class="solid" id="add_defending_tactic_modal_div">
                     <h1 id="add_defending_tactic_text_id">
                         Upload defending tactic file
-                    </h1>       
-                    <input class="server_port_input" id="defending_tactic_name_inputID" type="text" name="tactic_name" placeholder="tactic name"><br>
+                    </h1>
+                    <input class="server_port_input" id="defending_tactic_name_inputID" type="text" name="tactic_name"
+                        placeholder="tactic name"><br>
                     <br>
-                    <input class="server_port_input" id="defending_choose_file_inputID" type="file" name="choose_file" value="choose .lp file..."><br>
-                    <br>             
+                    <input class="server_port_input" id="defending_choose_file_inputID" type="file" name="choose_file"
+                        value="choose .lp file..."><br>
+                    <br>
                     <div id="validate_tactic_holder_div">
                         <a href="#" id="validate_tactic_submit" class="rcorners1 btn" role="button" onclick="validateTactic()">
                             <div> Validate </div>
@@ -136,11 +139,12 @@
                 <div class="solid" id="replace_tactic_modal_div">
                     <h1 id="replace_tactic_text_id">
                         Replace tactic file
-                    </h1>       
-                    <input class="server_port_input" id="replace_tactic_name_inputID" type="text" name="tactic_name" placeholder="tactic name"><br>
+                    </h1>
+                    <input class="server_port_input" id="replace_tactic_name_inputID" type="text" name="tactic_name"
+                        placeholder="tactic name"><br>
                     <br>
                     <input class="server_port_input" id="choose_file_inputID" type="file" name="choose_file" value="choose .lp file..."><br>
-                    <br>             
+                    <br>
                     <div id="validate_tactic_holder_div">
                         <a href="#" id="validate_tactic_submit" class="rcorners1 btn" role="button" onclick="validateTactic()">
                             <div> Validate </div>
@@ -157,45 +161,45 @@
 
 
         <div id="playModal" class="modal">
-                <!-- Modal content -->
-                <div class="modal-content" id="play_modal_content_div">
-                    <span class="close">&times;</span>
-                    <div class="solid" id="play_modal_div">
-                        <h1 id="play_text_id">                            
-                        </h1>       
-                        <div id="invite_holder_div">
-                            <a href="#" id="invite_submit" class="rcorners1 btn" role="button" onclick="inviteUser()">
-                                <div> Invite </div>
-                            </a>
-                        </div>   
-                        <div id="play_holder_div">
+            <!-- Modal content -->
+            <div class="modal-content" id="play_modal_content_div">
+                <span class="close">&times;</span>
+                <div class="solid" id="play_modal_div">
+                    <h1 id="play_text_id">
+                    </h1>
+                    <div id="invite_holder_div">
+                        <a href="#" id="invite_submit" class="rcorners1 btn" role="button" onclick="inviteUser()">
+                            <div> Invite </div>
+                        </a>
+                    </div>
+                    <!-- <div id="play_holder_div">
                             <a href="#" id="play_submit" class="rcorners1 btn" role="button" onclick="playClicked()">
                                 <div> Play </div>
                             </a>
-                        </div>
-                        <div id="accept_holder_div">
-                            <a href="#" id="accept_submit" class="rcorners1 btn" role="button" onclick="acceptInvitation()">
-                                <div> Accept </div>
-                            </a>
-                        </div>  
-                        <div id="decline_holder_div">
-                            <a href="#" id="decline_submit" class="rcorners1 btn" role="button" onclick="rejectInvitation()">
-                                <div> Decline </div>
-                            </a>
-                        </div>  
-                        <div id="cancel_before_holder_div">
-                            <a href="#" id="cancel_before_submit" class="rcorners1 btn" role="button" onclick="cancelInvitationBeforeSent()">
-                                <div> Cancel </div>
-                            </a>
-                        </div>
-                        <div id="cancel_after_holder_div">
-                            <a href="#" id="cancel_after_submit" class="rcorners1 btn" role="button" onclick="cancelInvitationAfterSent()">
-                                <div> Cancel </div>
-                            </a>
-                        </div>
+                        </div> -->
+                    <div id="accept_holder_div">
+                        <a href="#" id="accept_submit" class="rcorners1 btn" role="button" onclick="acceptInvitation()">
+                            <div> Accept </div>
+                        </a>
+                    </div>
+                    <div id="decline_holder_div">
+                        <a href="#" id="decline_submit" class="rcorners1 btn" role="button" onclick="rejectInvitation()">
+                            <div> Decline </div>
+                        </a>
+                    </div>
+                    <div id="cancel_before_holder_div">
+                        <a href="#" id="cancel_before_submit" class="rcorners1 btn" role="button" onclick="cancelInvitationBeforeSent()">
+                            <div> Cancel </div>
+                        </a>
+                    </div>
+                    <div id="cancel_after_holder_div">
+                        <a href="#" id="cancel_after_submit" class="rcorners1 btn" role="button" onclick="cancelInvitationAfterSent()">
+                            <div> Cancel </div>
+                        </a>
                     </div>
                 </div>
             </div>
+        </div>
 
 
 
@@ -203,25 +207,27 @@
 
 
         <div class="row" id="main_conent">
-            <div class="col-sm-9" id="main_display_div">
-               
+            <div id="main_display_div">
+
                 <div id="documentation_container">
-                     <p> Documentation blablabla </p>
+                    <p> Documentation blablabla </p>
                 </div>
 
                 <div id="view_selected_tactic_div">
-                    <h1 id="selected_tactic_div_text_id">
-                        Predefined Tactics
-                    </h1>
+                    <div  style="text-align:center;">
+                        <h1 id="selected_tactic_div_text_id">
+                            Predefined Tactics
+                        </h1>
+                    </div>
 
                     <div id="source_code_box">
                         <span class="close">&times;</span>
                         <div id="source_code_text"> </div>
                         <div id="extras_div">
-                            <a href="#"  role="button" onclick="replaceTactic()">
+                            <!-- <a href="#"  role="button" onclick="replaceTactic()">
                                 <input type="image" id="replace_tactic_img" src="Resources/add_tactic.png" />
-                            </a>
-                            <a href="#"  role="button" onclick="deleteTactic()">
+                            </a> -->
+                            <a href="#" role="button" onclick="deleteTactic()">
                                 <input type="image" id="delete_tactic_img" src="Resources/delete.png" />
                             </a>
                         </div>
@@ -230,14 +236,16 @@
 
 
                 <div id="tactics_container">
-
-                    <h1 id="predefined_tactics_text_id">
-                        Predefined Tactics
-                    </h1>
-
-                    <h1 id="my_tactics_text_id">
-                        My Tactics
-                    </h1>
+                    <div class="centerT">
+                        <h1 id="predefined_tactics_text_id">
+                            Predefined Tactics
+                        </h1>
+                    </div>
+                    <div class="centerT">
+                        <h1 id="my_tactics_text_id">
+                            My Tactics
+                        </h1>
+                    </div>
 
                     <div id="predefined_tactics_div">
                         <div id="predefined_attacking_div">
@@ -246,16 +254,20 @@
                                 <p id="attacking_text"> Attacking</p>
                             </div>
                             <div class="tactics">
-                                <p role="button" class="tactics_text" onclick="viewSelectedTactic('predefined',this)"> Ball holder goes under the basket and shoots </p>
+                                <p role="button" class="tactics_text" onclick="viewSelectedTactic('predefined',this,'attacking')">
+                                    Ball holder goes under the basket and shoots </p>
                             </div>
                             <div class="tactics">
-                                <p role="button" class="tactics_text" onclick="viewSelectedTactic('predefined',this)"> Choose what to do based on probabilities </p>
+                                <p role="button" class="tactics_text" onclick="viewSelectedTactic('predefined',this,'attacking')">
+                                    Choose what to do based on probabilities </p>
                             </div>
                             <div class="tactics">
-                                <p role="button" class="tactics_text" onclick="viewSelectedTactic('predefined',this)"> All players go to baseline </p>
+                                <p role="button" class="tactics_text" onclick="viewSelectedTactic('predefined',this,'attacking')">
+                                    All players go to baseline </p>
                             </div>
                             <div class="tactics">
-                                <p role="button" class="tactics_text" onclick="viewSelectedTactic('predefined',this)"> Each player goes to the baseline closest to them </p>
+                                <p role="button" class="tactics_text" onclick="viewSelectedTactic('predefined',this,'attacking')">
+                                    Each player goes to the baseline closest to them </p>
                             </div>
                         </div>
                         <div id="predefined_defending_div">
@@ -264,13 +276,16 @@
                                 <p id="defending_text"> Defending</p>
                             </div>
                             <div class="tactics">
-                                <p role="button" class="tactics_text" onclick="viewSelectedTactic('predefined',this)"> One player under the basket and the others on the ball holder </p>
+                                <p role="button" class="tactics_text" onclick="viewSelectedTactic('predefined',this,'defending')">
+                                    One player under the basket and the others on the ball holder </p>
                             </div>
                             <div class="tactics">
-                                <p role="button" class="tactics_text" onclick="viewSelectedTactic('predefined',this)"> Each player on one opponent </p>
+                                <p role="button" class="tactics_text" onclick="viewSelectedTactic('predefined',this,'defending')">
+                                    Each player on one opponent </p>
                             </div>
                             <div class="tactics">
-                                <p role="button" class="tactics_text" onclick="viewSelectedTactic('predefined',this)"> Players stay around the basket (two point shoots) </p>
+                                <p role="button" class="tactics_text" onclick="viewSelectedTactic('predefined',this,'defending')">
+                                    Players stay around the basket (two point shoots) </p>
                             </div>
                         </div>
                     </div>
@@ -328,9 +343,11 @@
         </div>
 
 
-    <footer id="footer_main_pages">
-        <p class="white_font" style="color: white;">This project was developped in the context of the course CS-567 “Knowledge Representation and Reasoning”, of the Computer Science Deparment, at the University of Crete, Greece</p>
-    </footer>
+        <footer id="footer_main_pages">
+            <p class="white_font" style="color: white;">This project was developped in the context of the course CS-567
+                “Knowledge Representation and Reasoning”, of the Computer Science Deparment, at the University of
+                Crete, Greece</p>
+        </footer>
 
 
 </body>

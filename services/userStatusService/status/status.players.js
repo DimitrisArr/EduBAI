@@ -97,8 +97,8 @@ module.exports.setPair = (username1, username2) => {
 
     }
 
-    setStatus(username1, statuses.INGAME);
-    setStatus(username2, statuses.INGAME);
+    module.exports.setStatus(username1, statuses.INGAME);
+    module.exports.setStatus(username2, statuses.INGAME);
 
 }
 

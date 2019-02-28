@@ -11,12 +11,12 @@ package GameData;
  */
 public class FilePaths {
 
-    public static String baseFilesFolder = "C:\\project\\MGTactics\\";
+    public static String baseFilesFolder = "/edubai/tactics/";
     
-    public static String defTacticsFolder = "C:\\project\\MGTactics\\";
-    public static String attcTacticsFolder = "C:\\project\\tactics\\";
+    public static String defTacticsFolder = "/edubai/tactics/";
+    public static String attcTacticsFolder = "/edubai/tactics/";
     
-    public static String clingoPath = "C:\\project\\clingo\\";
+    public static String clingoPath = "";
     
     
 

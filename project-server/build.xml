@@ -7,8 +7,8 @@
 <!-- the Compile on Save feature is turned off for the project. -->
 <!-- You can turn off the Compile on Save (or Deploy on Save) setting -->
 <!-- in the project's Project Properties dialog box.-->
-<project name="CS567-PROJECT" default="default" basedir=".">
-    <description>Builds, tests, and runs the project CS567-PROJECT.</description>
+<project name="edubai" default="default" basedir=".">
+    <description>Builds, tests, and runs the project edubai.</description>
     <import file="nbproject/build-impl.xml"/>
     <!--
 

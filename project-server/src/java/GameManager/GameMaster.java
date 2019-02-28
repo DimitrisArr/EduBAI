@@ -204,10 +204,13 @@ public class GameMaster {
         GamePlayer gp = GamePlayersManager.Instance().getData(playerName);
 
         System.out.println("-. Running ASP as an attacker");
+        System.out.println("data before asp attack- " + gp.players.toString());
         String atcData = ASPExecutor.Instance().executeAttack(gp.players, timepoint, gp.tactic, gp.courtLeft, playerName, playerName.equals(player1name));
         System.out.println("-. ASP result for attack : " + atcData);
 
         updatePlayerOwnData(playerName, atcData);
+
+        System.out.println("data after asp attack - " + gp.players.toString());
 
         //send what will do to UI
         System.out.println("-. Sending Attacking BeforeDoing Message to UI");
@@ -229,7 +232,11 @@ public class GameMaster {
         String oppData = AttackerData;
         System.out.println("-. Received opponent data: " + oppData);
 
+        System.out.println("data before def before update opp - " + gp.players.toString());
+
         updateOppPlayerData(playerName, oppData);
+
+        System.out.println("data before def updated opp - " + gp.players.toString());
 
         //Run Asp for defence
         System.out.println("-. Running ASP as a defender");
@@ -237,6 +244,8 @@ public class GameMaster {
         System.out.println("-.ASP results as a defender: " + defData);
 
         updatePlayerOwnData(playerName, defData);
+
+        System.out.println("data after def after update opp - " + gp.players.toString());
 
         String message2send = oppData + defData;
 
@@ -273,17 +282,43 @@ public class GameMaster {
 
         boolean isPlayer1 = playerName.equals(player1name);
 
+        //UPDATED
         for (String pData1 : pData) {
-            if (pData1.contains((isPlayer1 ? TeamData.myPlayer1 : TeamData.oppPlayer1) + ",")) {
-                gp.players.p11X = Integer.parseInt(pData1.split(",")[1]);
-                gp.players.p11Y = Integer.parseInt(pData1.split(",")[2]);
-            } else if (pData1.contains((isPlayer1 ? TeamData.myPlayer2 : TeamData.oppPlayer2) + ",")) {
-                gp.players.p12X = Integer.parseInt(pData1.split(",")[1]);
-                gp.players.p12Y = Integer.parseInt(pData1.split(",")[2]);
-            } else if (pData1.contains((isPlayer1 ? TeamData.myPlayer3 : TeamData.oppPlayer3) + ",")) {
-                gp.players.p13X = Integer.parseInt(pData1.split(",")[1]);
-                gp.players.p13Y = Integer.parseInt(pData1.split(",")[2]);
+
+            if (isPlayer1) {
+                if (pData1.contains(TeamData.myPlayer1 + ",")) {
+                    gp.players.p11X = Integer.parseInt(pData1.split(",")[1]);
+                    gp.players.p11Y = Integer.parseInt(pData1.split(",")[2]);
+                } else if (pData1.contains(TeamData.myPlayer2 + ",")) {
+                    gp.players.p12X = Integer.parseInt(pData1.split(",")[1]);
+                    gp.players.p12Y = Integer.parseInt(pData1.split(",")[2]);
+                } else if (pData1.contains(TeamData.myPlayer3 + ",")) {
+                    gp.players.p13X = Integer.parseInt(pData1.split(",")[1]);
+                    gp.players.p13Y = Integer.parseInt(pData1.split(",")[2]);
+                }
+            } else {
+                if (pData1.contains(TeamData.oppPlayer1 + ",")) {
+                    gp.players.p21X = Integer.parseInt(pData1.split(",")[1]);
+                    gp.players.p21Y = Integer.parseInt(pData1.split(",")[2]);
+                } else if (pData1.contains(TeamData.oppPlayer2 + ",")) {
+                    gp.players.p22X = Integer.parseInt(pData1.split(",")[1]);
+                    gp.players.p22Y = Integer.parseInt(pData1.split(",")[2]);
+                } else if (pData1.contains(TeamData.oppPlayer3 + ",")) {
+                    gp.players.p23X = Integer.parseInt(pData1.split(",")[1]);
+                    gp.players.p23Y = Integer.parseInt(pData1.split(",")[2]);
+                }
             }
+
+//            if (pData1.contains((isPlayer1 ? TeamData.myPlayer1 : TeamData.oppPlayer1) + ",")) {
+//                gp.players.p11X = Integer.parseInt(pData1.split(",")[1]);
+//                gp.players.p11Y = Integer.parseInt(pData1.split(",")[2]);
+//            } else if (pData1.contains((isPlayer1 ? TeamData.myPlayer2 : TeamData.oppPlayer2) + ",")) {
+//                gp.players.p12X = Integer.parseInt(pData1.split(",")[1]);
+//                gp.players.p12Y = Integer.parseInt(pData1.split(",")[2]);
+//            } else if (pData1.contains((isPlayer1 ? TeamData.myPlayer3 : TeamData.oppPlayer3) + ",")) {
+//                gp.players.p13X = Integer.parseInt(pData1.split(",")[1]);
+//                gp.players.p13Y = Integer.parseInt(pData1.split(",")[2]);
+//            }
         }
     }
 
@@ -337,16 +372,41 @@ public class GameMaster {
         boolean isPlayer1 = playerName.equals(player1name);
 
         for (String pData1 : pData) {
-            if (pData1.contains((isPlayer1 ? TeamData.oppPlayer1 : TeamData.myPlayer1) + ",")) {
-                gp.players.p21X = Integer.parseInt(pData1.split(",")[1]);
-                gp.players.p21Y = Integer.parseInt(pData1.split(",")[2]);
-            } else if (pData1.contains((isPlayer1 ? TeamData.oppPlayer2 : TeamData.myPlayer2) + ",")) {
-                gp.players.p22X = Integer.parseInt(pData1.split(",")[1]);
-                gp.players.p22Y = Integer.parseInt(pData1.split(",")[2]);
-            } else if (pData1.contains((isPlayer1 ? TeamData.oppPlayer3 : TeamData.myPlayer3) + ",")) {
-                gp.players.p23X = Integer.parseInt(pData1.split(",")[1]);
-                gp.players.p23Y = Integer.parseInt(pData1.split(",")[2]);
+
+            if (isPlayer1) {
+                if (pData1.contains((TeamData.oppPlayer1) + ",")) {
+                    gp.players.p21X = Integer.parseInt(pData1.split(",")[1]);
+                    gp.players.p21Y = Integer.parseInt(pData1.split(",")[2]);
+                } else if (pData1.contains(TeamData.oppPlayer2 + ",")) {
+                    gp.players.p22X = Integer.parseInt(pData1.split(",")[1]);
+                    gp.players.p22Y = Integer.parseInt(pData1.split(",")[2]);
+                } else if (pData1.contains(TeamData.oppPlayer3 + ",")) {
+                    gp.players.p23X = Integer.parseInt(pData1.split(",")[1]);
+                    gp.players.p23Y = Integer.parseInt(pData1.split(",")[2]);
+                }
+            } else {
+                if (pData1.contains(TeamData.myPlayer1 + ",")) {
+                    gp.players.p11X = Integer.parseInt(pData1.split(",")[1]);
+                    gp.players.p11Y = Integer.parseInt(pData1.split(",")[2]);
+                } else if (pData1.contains(TeamData.myPlayer2 + ",")) {
+                    gp.players.p12X = Integer.parseInt(pData1.split(",")[1]);
+                    gp.players.p12Y = Integer.parseInt(pData1.split(",")[2]);
+                } else if (pData1.contains(TeamData.myPlayer3 + ",")) {
+                    gp.players.p13X = Integer.parseInt(pData1.split(",")[1]);
+                    gp.players.p13Y = Integer.parseInt(pData1.split(",")[2]);
+                }
             }
+
+//            if (pData1.contains((!isPlayer1 ? TeamData.oppPlayer1 : TeamData.myPlayer1) + ",")) {
+//                gp.players.p21X = Integer.parseInt(pData1.split(",")[1]);
+//                gp.players.p21Y = Integer.parseInt(pData1.split(",")[2]);
+//            } else if (pData1.contains((!isPlayer1 ? TeamData.oppPlayer2 : TeamData.myPlayer2) + ",")) {
+//                gp.players.p22X = Integer.parseInt(pData1.split(",")[1]);
+//                gp.players.p22Y = Integer.parseInt(pData1.split(",")[2]);
+//            } else if (pData1.contains((!isPlayer1 ? TeamData.oppPlayer3 : TeamData.myPlayer3) + ",")) {
+//                gp.players.p23X = Integer.parseInt(pData1.split(",")[1]);
+//                gp.players.p23Y = Integer.parseInt(pData1.split(",")[2]);
+//            }
         }
     }
 

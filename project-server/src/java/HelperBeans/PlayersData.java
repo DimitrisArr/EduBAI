@@ -29,6 +29,20 @@ public class PlayersData {
     public int p23X;
     public int p23Y;
 
-    public int playerWithBall; 
+    public int playerWithBall;
+
+    @Override
+    public String toString() {
+        String data = "";
+        data += "my player 1:  " + p11X + "," + p11Y;
+        data += " my player 2:  " + p12X + "," + p12Y;
+        data += " my player 3:  " + p13X + "," + p13Y;
+
+        data += " opp player 1:  " + p21X + "," + p21Y;
+        data += " opp player 2:  " + p22X + "," + p22Y;
+        data += " opp player 3:  " + p23X + "," + p23Y;
+
+        return data;
+    }
 
 }
